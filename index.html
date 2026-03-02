@@ -5,63 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STINL — National Institute of Laboratory Sciences</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Noto+Serif+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0F2355;
-    --blue: #1A3A8F;
-    --accent: #2563EB;
-    --sky: #3B82F6;
+    --navy:       #0F2355;
+    --blue:       #1A3A8F;
+    --accent:     #2563EB;
+    --sky:        #3B82F6;
     --light-blue: #DBEAFE;
-    --pale: #F0F5FF;
-    --white: #FFFFFF;
-    --gray-100: #F8FAFC;
-    --gray-200: #E2E8F0;
-    --gray-400: #94A3B8;
-    --gray-600: #475569;
-    --gray-800: #1E293B;
-    --text: #0F172A;
-    --gold: #C9A84C;
+    --pale:       #F0F5FF;
+    --white:      #FFFFFF;
+    --gray-100:   #F8FAFC;
+    --gray-200:   #E2E8F0;
+    --gray-400:   #94A3B8;
+    --gray-600:   #475569;
+    --gray-800:   #1E293B;
+    --text:       #0F172A;
+    --gold:       #C9A84C;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; font-size: 16px; }
   body { font-family: 'DM Sans', system-ui, sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+  .kh { font-family: 'Noto Serif Khmer', serif; line-height: 2; }
 
-  /* NAV */
+  /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 5vw; height: 68px;
-    background: rgba(15, 35, 85, 0.97);
+    background: rgba(15,35,85,0.97);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
   .nav-logo {
-    width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), var(--sky));
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--accent), var(--sky));
     border-radius: 8px; display: grid; place-items: center;
     font-family: 'DM Serif Display', serif; font-size: 18px; color: white; flex-shrink: 0;
   }
   .nav-name { font-size: 15px; font-weight: 600; color: white; letter-spacing: 0.04em; text-transform: uppercase; }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
   .nav-links a { text-decoration: none; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7); letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
   .nav-links a:hover { color: var(--white); }
 
-  /* HERO */
+  /* ── HERO ── */
   .hero {
     min-height: 100vh; background: var(--navy); position: relative;
     overflow: hidden; display: flex; align-items: center; padding: 120px 5vw 80px;
   }
   .hero-grid {
     position: absolute; inset: 0;
-    background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
   }
-  .hero-blob { position: absolute; width: 700px; height: 700px; background: radial-gradient(ellipse, rgba(37,99,235,0.25) 0%, transparent 70%); border-radius: 50%; top: -200px; right: -200px; animation: blobFloat 8s ease-in-out infinite; }
+  .hero-blob  { position: absolute; width: 700px; height: 700px; background: radial-gradient(ellipse, rgba(37,99,235,0.25) 0%, transparent 70%); border-radius: 50%; top: -200px; right: -200px; animation: blobFloat 8s ease-in-out infinite; }
   .hero-blob2 { position: absolute; width: 500px; height: 500px; background: radial-gradient(ellipse, rgba(59,130,246,0.15) 0%, transparent 70%); border-radius: 50%; bottom: -150px; left: 10%; animation: blobFloat 10s ease-in-out infinite reverse; }
-  @keyframes blobFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.05); } }
+  @keyframes blobFloat { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-30px) scale(1.05)} }
   .hero-content { position: relative; z-index: 2; max-width: 720px; }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
@@ -71,8 +74,8 @@
     animation: fadeUp 0.8s ease both;
   }
   .hero-badge::before { content: ''; width: 6px; height: 6px; background: #60A5FA; border-radius: 50%; animation: pulse 2s ease infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } }
-  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem, 5vw, 4.5rem); color: var(--white); line-height: 1.1; margin-bottom: 12px; animation: fadeUp 0.8s 0.1s ease both; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.5)} }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5vw,4.5rem); color: var(--white); line-height: 1.1; margin-bottom: 12px; animation: fadeUp 0.8s 0.1s ease both; }
   .hero h1 em { font-style: italic; color: #93C5FD; }
   .hero-divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--gold), transparent); margin: 24px 0; animation: fadeUp 0.8s 0.2s ease both; }
   .hero p { font-size: 1.1rem; line-height: 1.75; color: rgba(255,255,255,0.65); max-width: 540px; margin-bottom: 40px; animation: fadeUp 0.8s 0.3s ease both; }
@@ -83,21 +86,216 @@
   .btn-secondary:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
   .hero-stats { position: absolute; right: 5vw; bottom: 80px; z-index: 2; display: flex; gap: 40px; animation: fadeUp 1s 0.5s ease both; }
   .stat { text-align: center; }
-  .stat-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: white; line-height: 1; }
+  .stat-num   { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: white; line-height: 1; }
   .stat-label { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 
-  /* SECTIONS SHARED */
+  /* ── SHARED ── */
   section { padding: 100px 5vw; }
-  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
-  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); color: var(--navy); line-height: 1.2; margin-bottom: 16px; }
-  .section-sub { font-size: 1.05rem; line-height: 1.75; color: var(--gray-600); max-width: 580px; margin-bottom: 56px; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: block; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem,3vw,2.8rem); color: var(--navy); line-height: 1.2; margin-bottom: 16px; }
+  .section-sub   { font-size: 1.05rem; line-height: 1.75; color: var(--gray-600); max-width: 580px; margin-bottom: 56px; }
   .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* WORKFLOW (existing) */
+  /* ══════════════════════════════════════════════════
+     ISO/IEC 17025 ACCREDITATION TIMELINE
+  ══════════════════════════════════════════════════ */
+  .iso-section {
+    background: var(--navy);
+    padding: 100px 5vw 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .iso-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+  }
+  .iso-section .section-label { color: #6EE7B7; }
+  .iso-section .section-title { color: #fff; }
+  .iso-section .section-sub   { color: rgba(255,255,255,0.5); }
+
+  .tl-scroll {
+    overflow-x: auto; padding-bottom: 8px;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent;
+    position: relative;
+  }
+  .tl-scroll::-webkit-scrollbar { height: 4px; }
+  .tl-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 4px; }
+
+  .tl-track {
+    display: flex; align-items: stretch;
+    min-width: max-content;
+    position: relative; padding: 0 12px;
+  }
+
+  .tl-spine {
+    position: absolute; left: 12px; right: 12px;
+    top: 134px; height: 3px;
+    background: rgba(255,255,255,0.08); border-radius: 3px;
+    z-index: 0; overflow: hidden;
+  }
+  .tl-spine::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg,#1D4ED8 0%,#0EA5E9 30%,#0D9488 65%,#16A34A 85%,#4D7C0F 100%);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.8s cubic-bezier(0.25,1,0.5,1);
+  }
+  .tl-spine.go::after { transform: scaleX(1); }
+
+  .tl-col {
+    display: flex; flex-direction: column; align-items: center;
+    width: 152px; flex-shrink: 0; position: relative; z-index: 1; padding: 0 8px;
+  }
+  .tl-col:nth-child(even) .tl-above { min-height: 100px; }
+  .tl-col:nth-child(odd)  .tl-above { min-height: 44px; }
+  .tl-col:nth-child(even) .tl-below { min-height: 44px; }
+  .tl-col:nth-child(odd)  .tl-below { min-height: 100px; }
+
+  .tl-above { display: flex; align-items: flex-end; text-align: center; padding-bottom: 10px; }
+  .tl-above-text { font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.55; }
+
+  .tl-connector { width: 1px; height: 18px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+
+  .tl-chip {
+    padding: 7px 20px; border-radius: 100px;
+    font-size: 13.5px; font-weight: 700; color: #fff;
+    white-space: nowrap; letter-spacing: 0.03em; cursor: default; flex-shrink: 0;
+    opacity: 0; transform: scale(0.65) translateY(10px);
+    transition: opacity 0.45s ease, transform 0.45s ease, box-shadow 0.25s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .tl-chip.show  { opacity: 1; transform: scale(1) translateY(0); }
+  .tl-chip:hover { transform: scale(1.1) !important; box-shadow: 0 6px 24px rgba(0,0,0,0.45) !important; }
+
+  .tc-1  { background: #1E3A8A; }
+  .tc-2  { background: #1D4ED8; }
+  .tc-3  { background: #0284C7; }
+  .tc-4  { background: #0369A1; }
+  .tc-5  { background: #0D9488; }
+  .tc-6  { background: #0F766E; }
+  .tc-7  { background: #047857; }
+  .tc-8  { background: #15803D; }
+  .tc-9  { background: #166534; }
+  .tc-10 { background: #4D7C0F; }
+
+  .tl-below { display: flex; align-items: flex-start; text-align: center; padding-top: 10px; }
+  .tl-below-text { font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.55; }
+  .tl-badge {
+    display: inline-block; background: rgba(255,255,255,0.1); border-radius: 4px;
+    padding: 1px 7px; font-size: 10px; font-weight: 600; color: #93C5FD;
+    letter-spacing: 0.05em; margin-top: 5px;
+  }
+
+  @media (max-width: 860px) {
+    .tl-scroll { overflow-x: visible; }
+    .tl-track  { flex-direction: column; min-width: unset; padding: 0; gap: 0; }
+    .tl-spine  { display: none; }
+    .tl-col {
+      flex-direction: row; width: 100%; align-items: center;
+      gap: 16px; padding: 16px 0 16px 32px;
+      border-left: 2px solid rgba(255,255,255,0.12);
+      position: relative;
+    }
+    .tl-col:last-child { border-left-color: transparent; }
+    .tl-col::before {
+      content: ''; position: absolute; left: -6px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+    }
+    .tl-above, .tl-below { min-height: unset !important; padding: 0; }
+    .tl-connector { display: none; }
+    .tl-chip { flex-shrink: 0; opacity: 1 !important; transform: none !important; font-size: 12px; padding: 6px 14px; }
+    .tl-above-text, .tl-below-text { text-align: left; font-size: 12px; }
+  }
+
+  /* ══════════════════════════════════════════════════
+     VISION & MISSION
+  ══════════════════════════════════════════════════ */
+  .vm-section {
+    background: var(--white);
+    padding: 100px 5vw;
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  /* Vision */
+  .vision-block { margin-bottom: 72px; }
+  .vision-card {
+    background: var(--pale);
+    border: 1px solid var(--light-blue);
+    border-left: 5px solid var(--accent);
+    border-radius: 18px; padding: 40px 48px;
+    display: grid; grid-template-columns: auto 1px 1fr;
+    gap: 0 32px; align-items: center;
+    transition: box-shadow 0.3s;
+  }
+  .vision-card:hover { box-shadow: 0 20px 56px rgba(15,35,85,0.1); }
+
+  .vision-id { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .vision-icon {
+    width: 52px; height: 52px; background: var(--accent);
+    border-radius: 14px; display: grid; place-items: center;
+    font-size: 24px; box-shadow: 0 6px 20px rgba(37,99,235,0.35);
+  }
+  .vision-word {
+    font-family: 'DM Serif Display', serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--accent); text-transform: uppercase;
+    writing-mode: vertical-rl; transform: rotate(180deg);
+  }
+  .vision-sep { background: var(--light-blue); align-self: stretch; }
+  .vision-text { font-size: 15px; line-height: 2; color: var(--navy); }
+  .vision-text.kh { font-size: 16px; }
+
+  /* Mission */
+  .mission-head { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; }
+  .mission-head-label { font-family: 'DM Serif Display', serif; font-size: 1.7rem; color: var(--navy); white-space: nowrap; }
+  .mission-head-rule { flex: 1; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); border-radius: 2px; }
+
+  .mission-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+
+  .mc {
+    border-radius: 18px; padding: 28px 24px 32px;
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.3s;
+  }
+  .mc.show { opacity: 1; transform: translateY(0); }
+  .mc:hover { transform: translateY(-6px) !important; box-shadow: 0 24px 56px rgba(0,0,0,0.22) !important; }
+  .mc::after {
+    content: ''; position: absolute; top: -28px; right: -28px;
+    width: 90px; height: 90px; border-radius: 50%;
+    background: rgba(255,255,255,0.07); pointer-events: none;
+  }
+  .mc-blue  { background: #2563EB; }
+  .mc-navy  { background: #1E3A8A; }
+  .mc-teal  { background: #0F766E; }
+  .mc-green { background: #15803D; }
+
+  .mc-title { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.95); margin-bottom: 12px; line-height: 1.5; }
+  .mc-title.kh { font-size: 15px; }
+  .mc-rule { width: 30px; height: 2px; background: rgba(255,255,255,0.35); border-radius: 2px; margin-bottom: 14px; }
+  .mc-body { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.75; }
+  .mc-body.kh { font-size: 13.5px; line-height: 1.95; }
+
+  @media (max-width: 900px) { .mission-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 560px) {
+    .mission-grid { grid-template-columns: 1fr; }
+    .vision-card { grid-template-columns: 1fr; gap: 20px; padding: 28px 24px; }
+    .vision-id { flex-direction: row; }
+    .vision-word { writing-mode: horizontal-tb; transform: none; letter-spacing: 0.1em; }
+    .vision-sep { display: none; }
+  }
+
+  /* ══════════════════════════════════════════════════
+     WORKFLOW OVERVIEW (existing)
+  ══════════════════════════════════════════════════ */
   .workflow-section { background: var(--gray-100); border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200); }
-  .workflow-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0; position: relative; }
+  .workflow-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 0; position: relative; }
   .workflow-steps::before { content: ''; position: absolute; top: 36px; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--sky)); z-index: 0; }
   .workflow-step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 16px 32px; transition: transform 0.3s; }
   .workflow-step:hover { transform: translateY(-4px); }
@@ -108,190 +306,124 @@
   .lifecycle-item { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9); letter-spacing: 0.05em; text-transform: uppercase; }
   .lifecycle-arrow { color: var(--sky); font-size: 16px; padding: 0 4px; }
 
-  /* ══════════════════════════════════════════
-     NEW: PROCESS FLOW SECTION
-  ══════════════════════════════════════════ */
-  .process-section {
-    background: var(--white);
-    padding: 100px 5vw;
-    border-bottom: 1px solid var(--gray-200);
-  }
-
+  /* ══════════════════════════════════════════════════
+     PROCESS FLOW (9-step detailed)
+  ══════════════════════════════════════════════════ */
+  .process-section { background: var(--white); padding: 100px 5vw; border-bottom: 1px solid var(--gray-200); }
   .process-header { max-width: 640px; margin-bottom: 64px; }
 
-  /* Desktop: 9-column grid */
   .process-track {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 0;
-    align-items: start;
+    position: relative; display: grid;
+    grid-template-columns: repeat(9,1fr); gap: 0; align-items: start;
   }
-
-  /* Connecting spine line */
   .process-spine {
-    position: absolute;
-    top: 43px;
-    left: calc(50% / 9);
-    right: calc(50% / 9);
-    height: 2px;
-    background: var(--gray-200);
-    z-index: 0;
-    overflow: hidden;
+    position: absolute; top: 43px;
+    left: calc(50% / 9); right: calc(50% / 9);
+    height: 2px; background: var(--gray-200); z-index: 0; overflow: hidden;
   }
-
   .process-spine::after {
-    content: '';
-    position: absolute;
-    inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: linear-gradient(90deg, var(--accent), var(--sky));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.6s cubic-bezier(0.4,0,0.2,1);
   }
-
   .process-spine.animated::after { transform: scaleX(1); }
 
-  /* Step */
   .process-step {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center;
     padding: 0 6px 28px;
-    opacity: 0;
-    transform: translateY(24px);
+    opacity: 0; transform: translateY(24px);
     transition: opacity 0.55s ease, transform 0.55s ease;
   }
-
   .process-step.visible { opacity: 1; transform: translateY(0); }
-
-  /* Alternate even steps lower for zigzag rhythm */
   .process-step:nth-child(even) { padding-top: 48px; }
 
-  /* Circle node */
   .ps-node {
-    width: 86px; height: 86px;
-    border-radius: 50%;
-    background: var(--white);
-    border: 2px solid var(--gray-200);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
+    width: 86px; height: 86px; border-radius: 50%;
+    background: var(--white); border: 2px solid var(--gray-200);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     margin-bottom: 18px;
-    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-    flex-shrink: 0;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s; flex-shrink: 0;
   }
-
-  .process-step:hover .ps-node {
-    border-color: var(--accent);
-    background: var(--pale);
-    box-shadow: 0 0 0 7px rgba(37,99,235,0.07);
-  }
-
+  .process-step:hover .ps-node { border-color: var(--accent); background: var(--pale); box-shadow: 0 0 0 7px rgba(37,99,235,0.07); }
   .ps-icon { font-size: 24px; line-height: 1; margin-bottom: 3px; }
-  .ps-num { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); }
+  .ps-num  { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); }
 
-  /* Info card */
   .ps-card {
-    background: var(--gray-100);
-    border: 1px solid var(--gray-200);
-    border-radius: 12px;
-    padding: 14px 10px;
-    text-align: center;
-    width: 100%;
+    background: var(--gray-100); border: 1px solid var(--gray-200);
+    border-radius: 12px; padding: 14px 10px; text-align: center; width: 100%;
     transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s;
   }
-
-  .process-step:hover .ps-card {
-    background: var(--white);
-    border-color: var(--accent);
-    box-shadow: 0 10px 28px rgba(15,35,85,0.1);
-    transform: translateY(-4px);
-  }
-
+  .process-step:hover .ps-card { background: var(--white); border-color: var(--accent); box-shadow: 0 10px 28px rgba(15,35,85,0.1); transform: translateY(-4px); }
   .ps-title { font-size: 11.5px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 6px; }
-  .ps-desc { font-size: 10.5px; color: var(--gray-600); line-height: 1.55; }
+  .ps-desc  { font-size: 10.5px; color: var(--gray-600); line-height: 1.55; }
 
-  /* ── MOBILE: vertical stack ── */
   @media (max-width: 900px) {
     .process-track { grid-template-columns: 1fr; gap: 12px; }
     .process-spine { display: none; }
-
-    .process-step {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 0;
-      position: relative;
-    }
-
+    .process-step { flex-direction: row; align-items: flex-start; gap: 16px; padding: 0; position: relative; }
     .process-step:nth-child(even) { padding-top: 0; }
-
     .ps-node { width: 60px; height: 60px; margin-bottom: 0; flex-shrink: 0; }
     .ps-icon { font-size: 20px; }
-
     .ps-card { text-align: left; flex: 1; padding: 12px 14px; }
-    .ps-title { font-size: 13px; }
-    .ps-desc { font-size: 12px; }
-
+    .ps-title { font-size: 13px; } .ps-desc { font-size: 12px; }
     .process-step:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      left: 29px;
-      top: 60px;
-      bottom: -12px;
-      width: 2px;
-      background: linear-gradient(180deg, rgba(37,99,235,0.35), rgba(59,130,246,0.1));
+      content: ''; position: absolute; left: 29px; top: 60px; bottom: -12px;
+      width: 2px; background: linear-gradient(180deg, rgba(37,99,235,0.35), rgba(59,130,246,0.1));
     }
   }
 
-  /* STRATEGIES */
+  /* ══════════════════════════════════════════════════
+     STRATEGIES
+  ══════════════════════════════════════════════════ */
   .strategies-section { background: var(--white); }
-  .strategies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+  .strategies-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 24px; }
   .strategy-card { border: 1px solid var(--gray-200); border-radius: 16px; padding: 32px; position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; background: var(--white); }
   .strategy-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--sky)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
   .strategy-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(15,35,85,0.12); border-color: transparent; }
   .strategy-card:hover::before { transform: scaleX(1); }
-  .strategy-num { font-family: 'DM Serif Display', serif; font-size: 3.5rem; color: var(--light-blue); line-height: 1; position: absolute; top: 20px; right: 24px; }
+  .strategy-num  { font-family: 'DM Serif Display', serif; font-size: 3.5rem; color: var(--light-blue); line-height: 1; position: absolute; top: 20px; right: 24px; }
   .strategy-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--pale); display: grid; place-items: center; margin-bottom: 20px; font-size: 22px; }
   .strategy-title { font-size: 17px; font-weight: 600; color: var(--navy); margin-bottom: 12px; line-height: 1.3; }
-  .strategy-desc { font-size: 13px; color: var(--gray-600); line-height: 1.65; margin-bottom: 16px; }
-  .strategy-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .strategy-desc  { font-size: 13px; color: var(--gray-600); line-height: 1.65; margin-bottom: 16px; }
+  .strategy-tags  { display: flex; flex-wrap: wrap; gap: 6px; }
   .tag { font-size: 11px; font-weight: 500; color: var(--accent); background: var(--pale); padding: 4px 10px; border-radius: 100px; }
-  .strategy-goal { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--gray-200); }
+  .strategy-goal  { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--gray-200); }
 
-  /* LABS */
+  /* ══════════════════════════════════════════════════
+     LABS
+  ══════════════════════════════════════════════════ */
   .labs-section { background: var(--navy); }
   .labs-section .section-label { color: #93C5FD; }
   .labs-section .section-title { color: var(--white); }
-  .labs-section .section-sub { color: rgba(255,255,255,0.55); }
-  .labs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .labs-section .section-sub   { color: rgba(255,255,255,0.55); }
+  .labs-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 20px; }
   .lab-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px; transition: background 0.3s, transform 0.3s, border-color 0.3s; position: relative; overflow: hidden; }
   .lab-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--sky)); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
   .lab-card:hover { background: rgba(255,255,255,0.09); transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
   .lab-card:hover::after { transform: scaleX(1); }
-  .lab-code { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--sky); background: rgba(59,130,246,0.15); border-radius: 6px; padding: 4px 10px; margin-bottom: 16px; text-transform: uppercase; }
-  .lab-name { font-size: 17px; font-weight: 600; color: white; margin-bottom: 10px; line-height: 1.3; }
+  .lab-code  { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--sky); background: rgba(59,130,246,0.15); border-radius: 6px; padding: 4px 10px; margin-bottom: 16px; text-transform: uppercase; }
+  .lab-name  { font-size: 17px; font-weight: 600; color: white; margin-bottom: 10px; line-height: 1.3; }
   .lab-focus { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
   .lab-items { list-style: none; display: flex; flex-direction: column; gap: 7px; }
   .lab-items li { font-size: 13px; color: rgba(255,255,255,0.6); padding-left: 16px; position: relative; line-height: 1.5; }
   .lab-items li::before { content: '→'; position: absolute; left: 0; color: var(--sky); font-size: 11px; top: 1px; }
   .lab-note { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 12px; font-weight: 600; color: var(--gold); }
 
-  /* FOOTER */
+  /* ── FOOTER ── */
   footer { background: #060F27; padding: 64px 5vw 40px; border-top: 1px solid rgba(255,255,255,0.06); }
   .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
   .footer-brand h3 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: white; margin-bottom: 12px; }
-  .footer-brand p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.4); max-width: 320px; }
-  .footer-col h4 { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .footer-col a { text-decoration: none; font-size: 14px; color: rgba(255,255,255,0.6); transition: color 0.2s; }
+  .footer-brand p  { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.4); max-width: 320px; }
+  .footer-col h4   { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+  .footer-col ul   { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-col a    { text-decoration: none; font-size: 14px; color: rgba(255,255,255,0.6); transition: color 0.2s; }
   .footer-col a:hover { color: white; }
-  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; gap: 16px; }
+  .footer-bottom   { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; gap: 16px; }
   .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.3); }
 
-  /* MOBILE */
+  /* ── GLOBAL MOBILE ── */
   @media (max-width: 768px) {
     nav { padding: 0 24px; }
     .nav-links { display: none; }
@@ -305,22 +437,23 @@
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── NAV ── -->
 <nav>
-  <a href="#" class="nav-brand">
+  <a href="#home" class="nav-brand">
     <div class="nav-logo">S</div>
     <span class="nav-name">STINL</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#workflow">Overview</a></li>
-    <li><a href="#process-flow">Process</a></li>
+    <li><a href="#accreditation">ISO History</a></li>
+    <li><a href="#vision-mission">Vision</a></li>
+    <li><a href="#workflow">Service</a></li>
     <li><a href="#strategy">Strategy</a></li>
     <li><a href="#labs">Laboratories</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section class="hero" id="home">
   <div class="hero-grid"></div>
   <div class="hero-blob"></div>
@@ -336,16 +469,194 @@
     </div>
   </div>
   <div class="hero-stats">
-    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Laboratories</div></div>
-    <div class="stat"><div class="stat-num">ISO</div><div class="stat-label">17025 / 17043</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Laboratories</div></div>
+    <div class="stat"><div class="stat-num">ISO</div><div class="stat-label">17025</div></div>
     <div class="stat"><div class="stat-num">9</div><div class="stat-label">Process Steps</div></div>
   </div>
 </section>
 
-<!-- ONLINE SERVICE OVERVIEW -->
+<!-- ══════════════════════════════════════════
+     SECTION 1 — ISO/IEC 17025 TIMELINE
+══════════════════════════════════════════ -->
+<section class="iso-section" id="accreditation">
+  <div class="reveal">
+    <span class="section-label">Accreditation History</span>
+    <h2 class="section-title">Quality Management System — ISO/IEC 17025</h2>
+    <p class="section-sub kh">ប្រព័ន្ធគ្រប់គ្រងគុណភាពមន្ទីរពិសោធន៍ ISO/IEC 17025</p>
+  </div>
+
+  <div class="tl-scroll">
+    <div class="tl-spine" id="isoSpine"></div>
+    <div class="tl-track" id="isoTrack">
+
+      <div class="tl-col">
+        <div class="tl-above"></div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-1" data-chip>២០០៧</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below">
+          <div class="tl-below-text kh">បានបង្កើត QMS<br><span class="tl-badge">QMS Founded</span></div>
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above">
+          <div class="tl-above-text kh">FCL &amp; WCL<br>SAC-SINGLAS<br><span class="tl-badge">Round 1</span></div>
+        </div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-2" data-chip>២០១០</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below"></div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above"></div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-3" data-chip>២០១២</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below">
+          <div class="tl-below-text kh">FCL, WCL (R2)<br>NFCL (R1) · SAC-SINGLAS<br><span class="tl-badge">MBL · NATA R1</span></div>
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above">
+          <div class="tl-above-text kh">FCL, WCL (R3)<br>NFCL (R2) · SAC-SINGLAS<br><span class="tl-badge">MBL · NATA R2</span></div>
+        </div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-4" data-chip>២០១៣</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below"></div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above"></div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-5" data-chip>២០១៦</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below">
+          <div class="tl-below-text kh">MBL · NATA<br><span class="tl-badge">Round 3</span></div>
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above">
+          <div class="tl-above-text kh">អនុម័ត ISO/IEC 17025:2017<br>FCL, WCL (R3)<br>NFCL (R2)</div>
+        </div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-5" data-chip>២០១៧</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below"></div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above"></div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-7" data-chip>២០២០</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below">
+          <div class="tl-below-text kh">MBL · NATA<br><span class="tl-badge">Round 4</span></div>
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above">
+          <div class="tl-above-text kh">FCL, WCL (R4)<br>NFCL (R3)<br>SAC-SINGLAS</div>
+        </div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-8" data-chip>២០២២</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below"></div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above"></div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-9" data-chip>២០២៤</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below">
+          <div class="tl-below-text kh">MBL · NATA<br><span class="tl-badge">Round 5</span></div>
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-above">
+          <div class="tl-above-text kh">FCL, WCL (R4)<br>NFCL (R3)<br>SAC-SINGLAS<br>MBL · NATA R5+</div>
+        </div>
+        <div class="tl-connector"></div>
+        <div class="tl-chip tc-10" data-chip>២០២៥</div>
+        <div class="tl-connector"></div>
+        <div class="tl-below"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 2 — VISION & MISSION
+══════════════════════════════════════════ -->
+<section class="vm-section" id="vision-mission">
+
+  <div class="vision-block reveal">
+    <span class="section-label">Our Direction</span>
+    <div class="vision-card">
+      <div class="vision-id">
+        <div class="vision-icon">👁</div>
+        <div class="vision-word">Vision</div>
+      </div>
+      <div class="vision-sep"></div>
+      <p class="vision-text kh">
+        ដើម្បីក្លាយជាមន្ទីរពិសោធន៍ជាតិដ៏ទំនើប ដែលជំរុញការស្រ្តិស្ថ័ និងជានាគុណភាពគេស្មើ
+        ភាគប្រកបដោយស្ម័គ្រចិត្ត និងទំនុកចិត្ត រួមចំណែកដំរូងស្ហ្មាតកម្ម
+        និងការអភិវឌ្ឍន៍ប្រទេស ចំពោះការពារសុខភាពប្រជាជន
+        និងការអភិវឌ្ឍន៍សេដ្ឋកិច្ចជាតិ និងអន្ដរជាតិ។
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <div class="mission-head reveal">
+      <span class="section-label" style="margin:0">Our Purpose</span>
+      <span class="mission-head-label">MISSION</span>
+      <div class="mission-head-rule"></div>
+    </div>
+    <div class="mission-grid">
+
+      <div class="mc mc-blue">
+        <div class="mc-title kh">មជ្ឈមណ្ឌលសេវាកម្មរិតដំបូន</div>
+        <div class="mc-rule"></div>
+        <div class="mc-body kh">ក្រោការអនុលោមតាមស្ដង់ដារ ISO/IEC 17025:2017 ដើម្បីជាគំរូសេវាកម្ម និងបំពេញភារកិច្ចជាតិ និងអន្ដរជាតិ ក្នុងការធ្វើការសាកល្បង និងការបញ្ជាក់លទ្ធផល។</div>
+      </div>
+
+      <div class="mc mc-navy">
+        <div class="mc-title kh">ស្ម័គ្រចិត្ត និងភាពពិតប្រាកដ</div>
+        <div class="mc-rule"></div>
+        <div class="mc-body kh">ផ្ដល់ជូននូវវិញ្ញាបនបត្រ ដោយឯករាជ្យ ត្រឹមត្រូវ និងស្មោះត្រង់ ភ្ជាប់ជាមួយការស្រាវជ្រាវ និងទំនាក់ទំនងអន្ដរជាតិ ប្រកបដោយតម្លៃ។</div>
+      </div>
+
+      <div class="mc mc-teal">
+        <div class="mc-title kh">ការស្រ្តិស្ថ័ និងវឌ្ឍនការ</div>
+        <div class="mc-rule"></div>
+        <div class="mc-body kh">បន្ថែមទំហំ និងសក្ដានុពលបច្ចេកវិទ្យា ដើម្បីប្រើប្រាស់ប្រកបដោយការអភិវឌ្ឍ ក្នុងការគ្រប់គ្រង ប្រតិបត្តិការ និងការកែលំអជាបន្ត​ ។</div>
+      </div>
+
+      <div class="mc mc-green">
+        <div class="mc-title kh">សុចរិតភាព និងគុណភាព</div>
+        <div class="mc-rule"></div>
+        <div class="mc-body kh">អភិវឌ្ឍបុគ្គលិក ដើម្បីផ្ដល់សេវាកម្មមានប្រសិទ្ធភាព ដោយធ្វើការក្នុងក្របខ័ណ្ឌប្រព័ន្ធគ្រប់គ្រង ដែលមានស្តង់ដារខ្ពស់ ។</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     ONLINE SERVICE OVERVIEW
+══════════════════════════════════════════ -->
 <section class="workflow-section" id="workflow">
   <div class="reveal">
-    <div class="section-label">End-to-End Service</div>
+    <span class="section-label">End-to-End Service</span>
     <h2 class="section-title">Online Service Workflow</h2>
     <p class="section-sub">From sample submission to certified report delivery — our streamlined process ensures accuracy, traceability, and transparency at every stage.</p>
   </div>
@@ -372,128 +683,65 @@
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     NEW SECTION: LABORATORY SERVICE PROCESS FLOW
-════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════
+     LABORATORY SERVICE PROCESS FLOW (9 steps)
+══════════════════════════════════════════ -->
 <section class="process-section" id="process-flow">
-
   <div class="process-header reveal">
-    <div class="section-label">Step-by-Step Process</div>
+    <span class="section-label">Step-by-Step Process</span>
     <h2 class="section-title">Laboratory Service Workflow</h2>
     <p class="section-sub">From your initial request to final certified report — here's exactly how your sample moves through our system, transparently and traceably.</p>
   </div>
 
   <div class="process-spine" id="processSpine"></div>
-
   <div class="process-track" id="processTrack">
 
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">📋</div>
-        <div class="ps-num">Step 1</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">Customer Submits Request</div>
-        <div class="ps-desc">Customer fills in the service form specifying the test type or COA report needed.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">📋</div><div class="ps-num">Step 1</div></div>
+      <div class="ps-card"><div class="ps-title">Customer Submits Request</div><div class="ps-desc">Customer fills in the service form specifying the test type or COA report needed.</div></div>
     </div>
-
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">🔍</div>
-        <div class="ps-num">Step 2</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">Admin Reviews Request</div>
-        <div class="ps-desc">Admin verifies the submitted form and confirms all required information is complete.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">🔍</div><div class="ps-num">Step 2</div></div>
+      <div class="ps-card"><div class="ps-title">Admin Reviews Request</div><div class="ps-desc">Admin verifies the submitted form and confirms all required information is complete.</div></div>
     </div>
-
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">🧾</div>
-        <div class="ps-num">Step 3</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">Invoice Issued &amp; Payment</div>
-        <div class="ps-desc">Cashier generates the invoice and customer completes payment to proceed.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">🧾</div><div class="ps-num">Step 3</div></div>
+      <div class="ps-card"><div class="ps-title">Invoice Issued &amp; Payment</div><div class="ps-desc">Cashier generates the invoice and customer completes payment to proceed.</div></div>
     </div>
-
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">🧪</div>
-        <div class="ps-num">Step 4</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">Sample Prepared &amp; Registered</div>
-        <div class="ps-desc">Admin prepares and logs the physical sample with a unique tracking ID.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">🧪</div><div class="ps-num">Step 4</div></div>
+      <div class="ps-card"><div class="ps-title">Sample Prepared &amp; Registered</div><div class="ps-desc">Admin prepares and logs the physical sample with a unique tracking ID.</div></div>
     </div>
-
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">⚗️</div>
-        <div class="ps-num">Step 5</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">Lab Testing &amp; Data Recording</div>
-        <div class="ps-desc">The laboratory conducts testing and records all raw data per ISO/IEC 17025 standards.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">⚗️</div><div class="ps-num">Step 5</div></div>
+      <div class="ps-card"><div class="ps-title">Lab Testing &amp; Data Recording</div><div class="ps-desc">The laboratory conducts testing and records all raw data per ISO/IEC 17025 standards.</div></div>
     </div>
-
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">🗄️</div>
-        <div class="ps-num">Step 6</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">Data Stored Securely</div>
-        <div class="ps-desc">All test data is securely stored in the centralized system for full audit traceability.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">🗄️</div><div class="ps-num">Step 6</div></div>
+      <div class="ps-card"><div class="ps-title">Data Stored Securely</div><div class="ps-desc">All test data is securely stored in the centralized system for full audit traceability.</div></div>
     </div>
-
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">🖥️</div>
-        <div class="ps-num">Step 7</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">COA Report Generated</div>
-        <div class="ps-desc">The IT system automatically generates the Certificate of Analysis (COA) from stored data.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">🖥️</div><div class="ps-num">Step 7</div></div>
+      <div class="ps-card"><div class="ps-title">COA Report Generated</div><div class="ps-desc">The IT system automatically generates the Certificate of Analysis (COA) from stored data.</div></div>
     </div>
-
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">✅</div>
-        <div class="ps-num">Step 8</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">Lab Verifies the Report</div>
-        <div class="ps-desc">A qualified laboratory officer reviews and approves the COA for accuracy and compliance.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">✅</div><div class="ps-num">Step 8</div></div>
+      <div class="ps-card"><div class="ps-title">Lab Verifies the Report</div><div class="ps-desc">A qualified laboratory officer reviews and approves the COA for accuracy and compliance.</div></div>
     </div>
-
     <div class="process-step">
-      <div class="ps-node">
-        <div class="ps-icon">📨</div>
-        <div class="ps-num">Step 9</div>
-      </div>
-      <div class="ps-card">
-        <div class="ps-title">Report Stamped &amp; Delivered</div>
-        <div class="ps-desc">The final COA is officially stamped, scanned, and delivered directly to the customer.</div>
-      </div>
+      <div class="ps-node"><div class="ps-icon">📨</div><div class="ps-num">Step 9</div></div>
+      <div class="ps-card"><div class="ps-title">Report Stamped &amp; Delivered</div><div class="ps-desc">The final COA is officially stamped, scanned, and delivered directly to the customer.</div></div>
     </div>
 
   </div>
 </section>
-<!-- ════════ END NEW SECTION ════════ -->
 
-<!-- STRATEGIES -->
+<!-- ══════════════════════════════════════════
+     STRATEGIC PILLARS
+══════════════════════════════════════════ -->
 <section class="strategies-section" id="strategy">
   <div class="reveal">
-    <div class="section-label">Organizational Strategy</div>
+    <span class="section-label">Organizational Strategy</span>
     <h2 class="section-title">Six Strategic Pillars</h2>
     <p class="section-sub">STINL's development is guided by six interconnected strategies, each addressing a critical dimension of sustainable laboratory excellence.</p>
   </div>
@@ -549,10 +797,12 @@
   </div>
 </section>
 
-<!-- LABS -->
+<!-- ══════════════════════════════════════════
+     LABORATORIES
+══════════════════════════════════════════ -->
 <section class="labs-section" id="labs">
   <div class="reveal">
-    <div class="section-label">Our Facilities</div>
+    <span class="section-label">Our Facilities</span>
     <h2 class="section-title">Specialized Laboratories</h2>
     <p class="section-sub">STINL comprises six purpose-built laboratory divisions, each equipped to deliver specialized testing and analysis to international standards.</p>
   </div>
@@ -608,7 +858,7 @@
     <div class="lab-card reveal">
       <span class="lab-code">MEEL</span>
       <div class="lab-name">Mechanical Electrical Electronics Lab</div>
-      <div class="lab-focus">Focus: Engineering & Electronic Testing</div>
+      <div class="lab-focus">Focus: Engineering &amp; Electronic Testing</div>
       <ul class="lab-items">
         <li>Electrical equipment testing</li>
         <li>Mechanical safety testing</li>
@@ -619,7 +869,7 @@
     <div class="lab-card reveal">
       <span class="lab-code">REL</span>
       <div class="lab-name">Research Laboratory</div>
-      <div class="lab-focus">Focus: Innovation & Advanced Research</div>
+      <div class="lab-focus">Focus: Innovation &amp; Advanced Research</div>
       <ul class="lab-items">
         <li>Scientific research projects</li>
         <li>Method development</li>
@@ -630,7 +880,7 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer id="contact">
   <div class="footer-top">
     <div class="footer-brand">
@@ -640,6 +890,8 @@
     <div class="footer-col">
       <h4>Navigation</h4>
       <ul>
+        <li><a href="#accreditation">ISO History</a></li>
+        <li><a href="#vision-mission">Vision &amp; Mission</a></li>
         <li><a href="#workflow">Service Overview</a></li>
         <li><a href="#process-flow">Process Flow</a></li>
         <li><a href="#strategy">Strategic Pillars</a></li>
@@ -649,9 +901,6 @@
     <div class="footer-col">
       <h4>Contact</h4>
       <ul>
-        <li><a href="#">info@stinl.gov</a></li>
-        <li><a href="#">+000 000 0000</a></li>
-        <li><a href="#">National Institute Compound</a></li>
       </ul>
     </div>
   </div>
@@ -662,7 +911,7 @@
 </footer>
 
 <script>
-  // General scroll reveal
+  /* ── General scroll reveal ── */
   const reveals = document.querySelectorAll('.reveal');
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -677,13 +926,47 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => revealObs.observe(el));
 
-  // Process flow: spine + stagger animation
+  /* ── ISO Timeline: spine draw + chip pop-in ── */
   (function () {
-    const spine = document.getElementById('processSpine');
-    const section = document.getElementById('process-flow');
-    const steps = document.querySelectorAll('.process-step');
-    if (!spine || !section || !steps.length) return;
+    const spine  = document.getElementById('isoSpine');
+    const chips  = document.querySelectorAll('[data-chip]');
+    const isoSec = document.getElementById('accreditation');
+    if (!spine || !isoSec) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        spine.classList.add('go');
+        chips.forEach((chip, i) => {
+          setTimeout(() => chip.classList.add('show'), 120 + i * 130);
+        });
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    obs.observe(isoSec);
+  })();
 
+  /* ── Mission cards: staggered slide-up ── */
+  (function () {
+    const mCards = document.querySelectorAll('.mc');
+    if (!mCards.length) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        document.querySelectorAll('.mc').forEach((card, i) => {
+          setTimeout(() => card.classList.add('show'), i * 110);
+        });
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.1 });
+    obs.observe(mCards[0]);
+  })();
+
+  /* ── Process flow: spine + stagger ── */
+  (function () {
+    const spine   = document.getElementById('processSpine');
+    const section = document.getElementById('process-flow');
+    const steps   = document.querySelectorAll('.process-step');
+    if (!spine || !section || !steps.length) return;
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -695,11 +978,10 @@
         }
       });
     }, { threshold: 0.1 });
-
     obs.observe(section);
   })();
 
-  // Smooth scroll
+  /* ── Smooth scroll ── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
