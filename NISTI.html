@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STINL — National Institute of Laboratory Sciences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F2355;
+    --blue: #1A3A8F;
+    --accent: #2563EB;
+    --sky: #3B82F6;
+    --light-blue: #DBEAFE;
+    --pale: #F0F5FF;
+    --white: #FFFFFF;
+    --gray-100: #F8FAFC;
+    --gray-200: #E2E8F0;
+    --gray-400: #94A3B8;
+    --gray-600: #475569;
+    --gray-800: #1E293B;
+    --text: #0F172A;
+    --gold: #C9A84C;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 68px;
+    background: rgba(15, 35, 85, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-brand {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--accent), var(--sky));
+    border-radius: 8px;
+    display: grid; place-items: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: white;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+
+  .nav-name {
+    font-size: 15px; font-weight: 600;
+    color: white; letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center;
+    padding: 120px 5vw 80px;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-blob {
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(ellipse, rgba(37,99,235,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -200px; right: -200px;
+    animation: blobFloat 8s ease-in-out infinite;
+  }
+
+  .hero-blob2 {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -150px; left: 10%;
+    animation: blobFloat 10s ease-in-out infinite reverse;
+  }
+
+  @keyframes blobFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 720px;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(37,99,235,0.2);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px; font-weight: 500;
+    color: #93C5FD;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #60A5FA;
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 12px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: #93C5FD;
+  }
+
+  .hero-divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 24px 0;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero p {
+    font-size: 1.1rem; line-height: 1.75;
+    color: rgba(255,255,255,0.65);
+    max-width: 540px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 4px 20px rgba(37,99,235,0.4);
+  }
+
+  .btn-primary:hover {
+    background: #1D4ED8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(37,99,235,0.5);
+  }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    position: absolute; right: 5vw; bottom: 80px; z-index: 2;
+    display: flex; gap: 40px;
+    animation: fadeUp 1s 0.5s ease both;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: white;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px; font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 100px 5vw; }
+
+  .section-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 1.05rem; line-height: 1.75;
+    color: var(--gray-600);
+    max-width: 580px;
+    margin-bottom: 56px;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── WORKFLOW ── */
+  .workflow-section {
+    background: var(--gray-100);
+    border-top: 1px solid var(--gray-200);
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .workflow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+
+  .workflow-steps::before {
+    content: '';
+    position: absolute;
+    top: 36px; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--sky));
+    z-index: 0;
+  }
+
+  .workflow-step {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+    padding: 0 16px 32px;
+    transition: transform 0.3s;
+  }
+
+  .workflow-step:hover { transform: translateY(-4px); }
+
+  .step-num {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 3px solid var(--accent);
+    display: grid; place-items: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-bottom: 16px;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.15);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .workflow-step:hover .step-num {
+    background: var(--accent);
+    color: white;
+  }
+
+  .step-text {
+    font-size: 13px; font-weight: 500;
+    color: var(--gray-600);
+    line-height: 1.5;
+  }
+
+  .lifecycle-bar {
+    display: flex; align-items: center; gap: 0;
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 20px 32px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .lifecycle-item {
+    font-size: 13px; font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .lifecycle-arrow {
+    color: var(--sky);
+    font-size: 16px;
+    padding: 0 4px;
+  }
+
+  /* ── STRATEGIES ── */
+  .strategies-section { background: var(--white); }
+
+  .strategies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .strategy-card {
+    border: 1px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    background: var(--white);
+  }
+
+  .strategy-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--sky));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .strategy-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(15,35,85,0.12);
+    border-color: transparent;
+  }
+
+  .strategy-card:hover::before { transform: scaleX(1); }
+
+  .strategy-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.5rem;
+    color: var(--light-blue);
+    line-height: 1;
+    position: absolute;
+    top: 20px; right: 24px;
+  }
+
+  .strategy-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--pale);
+    display: grid; place-items: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+  }
+
+  .strategy-title {
+    font-size: 17px; font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .strategy-desc {
+    font-size: 13px; color: var(--gray-600);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  .strategy-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+
+  .tag {
+    font-size: 11px; font-weight: 500;
+    color: var(--accent);
+    background: var(--pale);
+    padding: 4px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+  }
+
+  .strategy-goal {
+    font-size: 12px; font-weight: 600;
+    color: var(--accent);
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gray-200);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── LABS ── */
+  .labs-section { background: var(--navy); }
+
+  .labs-section .section-label { color: #93C5FD; }
+  .labs-section .section-title { color: var(--white); }
+  .labs-section .section-sub { color: rgba(255,255,255,0.55); }
+
+  .labs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .lab-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 28px;
+    transition: background 0.3s, transform 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lab-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--sky));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .lab-card:hover {
+    background: rgba(255,255,255,0.09);
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .lab-card:hover::after { transform: scaleX(1); }
+
+  .lab-code {
+    display: inline-block;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--sky);
+    background: rgba(59,130,246,0.15);
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .lab-name {
+    font-size: 17px; font-weight: 600;
+    color: white;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .lab-focus {
+    font-size: 12px; font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+
+  .lab-items {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 7px;
+  }
+
+  .lab-items li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .lab-items li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--sky);
+    font-size: 11px;
+    top: 1px;
+  }
+
+  .lab-note {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 12px; font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #060F27;
+    padding: 64px 5vw 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 12px;
+  }
+
+  .footer-brand p {
+    font-size: 14px; line-height: 1.7;
+    color: rgba(255,255,255,0.4);
+    max-width: 320px;
+  }
+
+  .footer-col h4 {
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 20px;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+  .footer-col a {
+    text-decoration: none;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: white; }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    flex-wrap: wrap; gap: 16px;
+  }
+
+  .footer-bottom p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 24px 80px; }
+    .hero-stats { position: static; margin-top: 48px; justify-content: center; flex-wrap: wrap; }
+    section { padding: 72px 24px; }
+    .workflow-steps::before { display: none; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">S</div>
+    <span class="nav-name">STINL</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#strategy">Strategy</a></li>
+    <li><a href="#labs">Laboratories</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-blob2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Scientific Testing &amp; Innovation</div>
+    <h1>STINL<br><em>Laboratory</em> System</h1>
+    <div class="hero-divider"></div>
+    <p>A comprehensive national institute delivering accredited testing, quality assurance, and scientific innovation across multiple specialized disciplines — from microbiology to mechanical electronics.</p>
+    <div class="hero-actions">
+      <a href="#labs" class="btn-primary">Explore Laboratories ↓</a>
+      <a href="#workflow" class="btn-secondary">Our Process</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Laboratories</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">ISO</div>
+      <div class="stat-label">17025 / 17043</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Process Steps</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="workflow-section" id="workflow">
+  <div class="reveal">
+    <div class="section-label">End-to-End Service</div>
+    <h2 class="section-title">Online Service Workflow</h2>
+    <p class="section-sub">From sample submission to certified report delivery — our streamlined 10-step process ensures accuracy, traceability, and transparency at every stage.</p>
+  </div>
+
+  <div class="workflow-steps reveal">
+    <div class="workflow-step">
+      <div class="step-num">1</div>
+      <div class="step-text">Customer submits application with sample details</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">2</div>
+      <div class="step-text">Customer service verifies request &amp; information</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">3</div>
+      <div class="step-text">Sample ID assigned &amp; invoice issued</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">4</div>
+      <div class="step-text">Customer completes payment</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">5</div>
+      <div class="step-text">Sample received &amp; registered</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">6</div>
+      <div class="step-text">Sample distributed to appropriate laboratory</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">7</div>
+      <div class="step-text">Laboratory performs testing &amp; analysis</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">8</div>
+      <div class="step-text">Results reviewed &amp; validated</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">9</div>
+      <div class="step-text">Certificate generated with QR code</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">10</div>
+      <div class="step-text">Results delivered to customer</div>
+    </div>
+  </div>
+
+  <div class="lifecycle-bar reveal">
+    <span class="lifecycle-item">Customer</span>
+    <span class="lifecycle-arrow">→</span>
+    <span class="lifecycle-item">Request</span>
+    <span class="lifecycle-arrow">→</span>
+    <span class="lifecycle-item">Payment</span>
+    <span class="lifecycle-arrow">→</span>
+    <span class="lifecycle-item">Testing</span>
+    <span class="lifecycle-arrow">→</span>
+    <span class="lifecycle-item">Validation</span>
+    <span class="lifecycle-arrow">→</span>
+    <span class="lifecycle-item">Report</span>
+    <span class="lifecycle-arrow">→</span>
+    <span class="lifecycle-item">Delivery</span>
+  </div>
+</section>
+
+<!-- STRATEGIES -->
+<section class="strategies-section" id="strategy">
+  <div class="reveal">
+    <div class="section-label">Organizational Strategy</div>
+    <h2 class="section-title">Six Strategic Pillars</h2>
+    <p class="section-sub">STINL's development is guided by six interconnected strategies, each addressing a critical dimension of sustainable laboratory excellence.</p>
+  </div>
+
+  <div class="strategies-grid">
+
+    <div class="strategy-card reveal">
+      <div class="strategy-num">I</div>
+      <div class="strategy-icon">👥</div>
+      <div class="strategy-title">Human Resources &amp; Organization</div>
+      <div class="strategy-desc">Focus on workforce development and building internal capability through structured training programs and organizational improvement.</div>
+      <div class="strategy-tags">
+        <span class="tag">Staff Evaluation</span>
+        <span class="tag">Training</span>
+        <span class="tag">Capacity Building</span>
+        <span class="tag">Workplace Safety</span>
+      </div>
+      <div class="strategy-goal">Goal: Build a strong, skilled, and sustainable workforce.</div>
+    </div>
+
+    <div class="strategy-card reveal">
+      <div class="strategy-num">II</div>
+      <div class="strategy-icon">📈</div>
+      <div class="strategy-title">Business &amp; Market Development</div>
+      <div class="strategy-desc">Ensure financial sustainability and growth through strategic planning, market expansion, and creation of innovative new services.</div>
+      <div class="strategy-tags">
+        <span class="tag">Financial Management</span>
+        <span class="tag">Forecasting</span>
+        <span class="tag">Market Expansion</span>
+      </div>
+      <div class="strategy-goal">Goal: Maintain revenue growth and competitiveness.</div>
+    </div>
+
+    <div class="strategy-card reveal">
+      <div class="strategy-num">III</div>
+      <div class="strategy-icon">⚙️</div>
+      <div class="strategy-title">Operational Excellence</div>
+      <div class="strategy-desc">Improve efficiency and reliability of daily operations through standard procedures, quality control, and robust asset and logistics management.</div>
+      <div class="strategy-tags">
+        <span class="tag">SOP</span>
+        <span class="tag">Quality Control</span>
+        <span class="tag">Asset Management</span>
+        <span class="tag">Logistics</span>
+      </div>
+      <div class="strategy-goal">Goal: Deliver consistent and high-quality services.</div>
+    </div>
+
+    <div class="strategy-card reveal">
+      <div class="strategy-num">IV</div>
+      <div class="strategy-icon">💻</div>
+      <div class="strategy-title">Digital &amp; IT Management</div>
+      <div class="strategy-desc">Drive digital transformation through modern website development, integrated data management systems, and a one-stop ERP service platform.</div>
+      <div class="strategy-tags">
+        <span class="tag">Website Dev</span>
+        <span class="tag">Data Systems</span>
+        <span class="tag">ERP</span>
+        <span class="tag">One-Stop Platform</span>
+      </div>
+      <div class="strategy-goal">Goal: Improve accessibility, efficiency, and transparency.</div>
+    </div>
+
+    <div class="strategy-card reveal">
+      <div class="strategy-num">V</div>
+      <div class="strategy-icon">🔬</div>
+      <div class="strategy-title">Technical Capability Development</div>
+      <div class="strategy-desc">Strengthen laboratory scientific capacity by expanding testing parameters, increasing throughput, and pursuing ISO 17025 / 17043 accreditation.</div>
+      <div class="strategy-tags">
+        <span class="tag">ISO 17025</span>
+        <span class="tag">ISO 17043</span>
+        <span class="tag">Reference Labs</span>
+        <span class="tag">Test Expansion</span>
+      </div>
+      <div class="strategy-goal">Goal: Achieve international-level technical standards.</div>
+    </div>
+
+    <div class="strategy-card reveal">
+      <div class="strategy-num">VI</div>
+      <div class="strategy-icon">🤝</div>
+      <div class="strategy-title">Partnerships &amp; Collaboration</div>
+      <div class="strategy-desc">Enhance cooperation with external stakeholders across public-private partnerships, national collaborations, and international cooperation networks.</div>
+      <div class="strategy-tags">
+        <span class="tag">Public-Private</span>
+        <span class="tag">National</span>
+        <span class="tag">International</span>
+      </div>
+      <div class="strategy-goal">Goal: Promote innovation and knowledge exchange.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LABS -->
+<section class="labs-section" id="labs">
+  <div class="reveal">
+    <div class="section-label">Our Facilities</div>
+    <h2 class="section-title">Specialized Laboratories</h2>
+    <p class="section-sub">STINL comprises six purpose-built laboratory divisions, each equipped to deliver specialized testing and analysis to international standards.</p>
+  </div>
+
+  <div class="labs-grid">
+
+    <div class="lab-card reveal">
+      <span class="lab-code">MBL</span>
+      <div class="lab-name">Microbiology Laboratory</div>
+      <div class="lab-focus">Focus: Microorganism Testing</div>
+      <ul class="lab-items">
+        <li>Detection of bacteria and pathogens</li>
+        <li>Food safety testing</li>
+        <li>Water microbiology</li>
+        <li>Public health monitoring</li>
+      </ul>
+      <div class="lab-note">⚕ Prevent disease and contamination risks</div>
+    </div>
+
+    <div class="lab-card reveal">
+      <span class="lab-code">FCL</span>
+      <div class="lab-name">Food Chemistry Laboratory</div>
+      <div class="lab-focus">Focus: Chemical Analysis of Food Products</div>
+      <ul class="lab-items">
+        <li>Nutritional composition</li>
+        <li>Additives and preservatives</li>
+        <li>Chemical contaminants</li>
+        <li>Heavy metals in food</li>
+      </ul>
+      <div class="lab-note">🍽 Drinks, meat, dairy, fruits, processed food</div>
+    </div>
+
+    <div class="lab-card reveal">
+      <span class="lab-code">WCL</span>
+      <div class="lab-name">Water Chemistry Laboratory</div>
+      <div class="lab-focus">Focus: Water Quality Testing</div>
+      <ul class="lab-items">
+        <li>Drinking water analysis</li>
+        <li>Surface and groundwater testing</li>
+        <li>Wastewater monitoring</li>
+        <li>Ice quality testing</li>
+      </ul>
+      <div class="lab-note">💧 Ensure safe water for public use</div>
+    </div>
+
+    <div class="lab-card reveal">
+      <span class="lab-code">NFCL</span>
+      <div class="lab-name">Non-Food Chemistry Laboratory</div>
+      <div class="lab-focus">Focus: Non-Food Chemical Products</div>
+      <ul class="lab-items">
+        <li>Cosmetics testing</li>
+        <li>Cleaning agents analysis</li>
+        <li>Plastics and materials</li>
+        <li>Industrial products</li>
+      </ul>
+      <div class="lab-note">🧪 Ensure safety and regulatory compliance</div>
+    </div>
+
+    <div class="lab-card reveal">
+      <span class="lab-code">MEEL</span>
+      <div class="lab-name">Mechanical Electrical Electronics Lab</div>
+      <div class="lab-focus">Focus: Engineering & Electronic Testing</div>
+      <ul class="lab-items">
+        <li>Electrical equipment testing</li>
+        <li>Mechanical safety testing</li>
+        <li>Electronic device evaluation</li>
+      </ul>
+      <div class="lab-note">⚡ Product certification and industrial standards</div>
+    </div>
+
+    <div class="lab-card reveal">
+      <span class="lab-code">REL</span>
+      <div class="lab-name">Research Laboratory</div>
+      <div class="lab-focus">Focus: Innovation & Advanced Research</div>
+      <ul class="lab-items">
+        <li>Scientific research projects</li>
+        <li>Method development</li>
+        <li>New technology testing</li>
+      </ul>
+      <div class="lab-note">🔭 Support long-term innovation and development</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <h3>STINL</h3>
+      <p>The Scientific Testing &amp; Innovation National Laboratory — committed to delivering trusted, accredited testing services that protect public health, safety, and quality standards across all sectors.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#workflow">Service Workflow</a></li>
+        <li><a href="#strategy">Strategic Pillars</a></li>
+        <li><a href="#labs">Laboratories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">info@stinl.gov</a></li>
+        <li><a href="#">+000 000 0000</a></li>
+        <li><a href="#">National Institute Compound</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 STINL — National Institute of Laboratory Sciences. All rights reserved.</p>
+    <p>ISO 17025 · ISO 17043 Accredited</p>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // Stagger delay for grid children
+        const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+        let idx = 0;
+        siblings.forEach((el, j) => { if (el === entry.target) idx = j; });
+        const delay = Math.min(idx * 80, 400);
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Smooth nav scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
