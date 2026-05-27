@@ -3,681 +3,1153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXUS Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<title>Lab System: Power BI vs Web</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  /* palette — reference: white cards, light-blue bg, purple sidebar, blue+orange accents */
-  --bg:       #E8EDF8;        /* page background — light periwinkle */
-  --sidebar:  #4A3FC7;        /* sidebar — deep indigo/purple */
-  --sidebar2: #3D34A8;
-  --card:     #FFFFFF;
-  --card2:    #F2F5FC;        /* slightly tinted card */
-  --blue:     #4A7CF7;        /* primary blue accent */
-  --blue-lt:  #C8D9FD;
-  --orange:   #F7834A;        /* secondary orange accent */
-  --orange-lt:#FDDECE;
-  --purple:   #7C6FF7;
-  --green:    #3EC97A;
-  --green-lt: #C5EDD8;
-  --red:      #F75A5A;
-  --red-lt:   #FDD4D4;
-  --t1:       #1A1D2E;        /* primary text */
-  --t2:       #6B7280;        /* muted text */
-  --t3:       #A0A8C0;        /* dim text */
-  --bd:       rgba(74,127,247,0.1);
-  --bd2:      rgba(74,127,247,0.22);
-  --shadow:   0 2px 12px rgba(74,100,200,0.08);
-  --shadow2:  0 4px 20px rgba(74,100,200,0.14);
-  --r:        16px; --rs:10px;
-  --sbw:      62px;
-}
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:'Outfit',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-/* ══ SHELL ══ */
-#shell{height:100vh;display:flex;}
-
-/* ══ SIDEBAR ══ */
-.sidebar{
-  width:var(--sbw);height:100vh;flex-shrink:0;
-  background:var(--sidebar);
-  display:flex;flex-direction:column;align-items:center;padding:18px 0 14px;gap:4px;
-  box-shadow:4px 0 24px rgba(74,63,199,0.18);
-}
-.sb-logo{
-  width:38px;height:38px;border-radius:11px;
-  background:rgba(255,255,255,0.18);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#fff;
-  margin-bottom:14px;letter-spacing:-.5px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.15);
-}
-.sb-div{width:30px;height:.5px;background:rgba(255,255,255,0.15);margin:8px 0;}
-.sb-icon{
-  width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .18s;position:relative;
-}
-.sb-icon svg{width:18px;height:18px;fill:none;stroke:rgba(255,255,255,0.45);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .18s;}
-.sb-icon:hover{background:rgba(255,255,255,0.12);}
-.sb-icon:hover svg{stroke:rgba(255,255,255,0.85);}
-.sb-icon.active{background:rgba(255,255,255,0.2);}
-.sb-icon.active svg{stroke:#fff;}
-.sb-icon.active::before{content:'';position:absolute;left:-1px;top:50%;transform:translateY(-50%);width:3px;height:20px;border-radius:0 3px 3px 0;background:#fff;opacity:.7;}
-
-/* ══ MAIN ══ */
-.main{flex:1;min-width:0;display:flex;flex-direction:column;padding:12px 14px 12px 12px;gap:9px;overflow:hidden;}
-
-/* ══ TOPBAR ══ */
-.topbar{display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:nowrap;}
-.page-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:-.4px;color:var(--t1);white-space:nowrap;}
-.page-title em{color:var(--blue);font-style:normal;}
-.vline{width:.5px;height:18px;background:var(--bd2);flex-shrink:0;}
-
-/* filter pills */
-.df-group{display:flex;gap:4px;flex-shrink:0;}
-.df-btn{
-  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;
-  padding:5px 11px;border-radius:20px;border:1.5px solid rgba(74,127,247,0.18);
-  background:white;color:var(--t3);cursor:pointer;transition:all .16s;white-space:nowrap;
-  box-shadow:0 1px 4px rgba(74,127,247,0.06);
-}
-.df-btn:hover{border-color:var(--blue);color:var(--blue);}
-.df-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 2px 10px rgba(74,127,247,0.3);}
-
-/* date range */
-.dr{display:flex;align-items:center;gap:5px;flex-shrink:0;}
-.di{
-  font-family:'JetBrains Mono',monospace;font-size:9px;background:white;
-  border:1.5px solid rgba(74,127,247,0.18);color:var(--t1);border-radius:var(--rs);
-  padding:4px 9px;outline:none;width:104px;transition:border-color .15s;
-  box-shadow:0 1px 4px rgba(74,127,247,0.05);
-}
-.di:focus{border-color:var(--blue);}
-.di::-webkit-calendar-picker-indicator{filter:opacity(.4);cursor:pointer;}
-.dsep{font-size:10px;color:var(--t3);}
-.dapply{
-  font-family:'JetBrains Mono',monospace;font-size:9px;padding:5px 11px;border-radius:var(--rs);
-  border:1.5px solid var(--blue);background:var(--blue-lt);color:var(--blue);
-  cursor:pointer;transition:all .15s;white-space:nowrap;
-}
-.dapply:hover{background:var(--blue);color:#fff;}
-
-/* tabs */
-.tab-row{display:flex;gap:3px;margin-left:auto;flex-shrink:0;background:white;border-radius:20px;padding:3px;box-shadow:var(--shadow);}
-.tab{
-  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;
-  padding:4px 13px;border-radius:17px;border:none;background:transparent;
-  color:var(--t3);cursor:pointer;transition:all .18s;text-transform:uppercase;white-space:nowrap;
-}
-.tab:hover{color:var(--t1);}
-.tab.active{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(74,127,247,0.3);}
-
-/* live + clock */
-.live{
-  display:flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:9px;
-  color:var(--green);background:var(--green-lt);border-radius:20px;padding:5px 10px;flex-shrink:0;
-}
-.ldot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 1.5s ease infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.clk{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);flex-shrink:0;}
-
-/* ══ SECTIONS ══ */
-.section{display:none;flex:1;min-height:0;}
-.section.active{display:grid;}
-
-#sec-overview{
-  grid-template-columns:1fr 1fr 1fr 1fr 190px;
-  grid-template-rows:86px 1fr 130px;
-  gap:9px;
-}
-#sec-financial{
-  grid-template-columns:1fr 1fr 150px 150px;
-  grid-template-rows:82px 1fr 1fr;
-  gap:9px;
-}
-#sec-lab{
-  grid-template-columns:1.1fr 1fr 1fr 155px;
-  grid-template-rows:82px 1fr;
-  gap:9px;
+:root {
+  --bg:        #0a0c0f;
+  --bg2:       #0f1218;
+  --bg3:       #151a22;
+  --border:    rgba(120,200,160,0.12);
+  --border2:   rgba(120,200,160,0.22);
+  --green:     #52d68a;
+  --green-dim: rgba(82,214,138,0.12);
+  --amber:     #f5a623;
+  --amber-dim: rgba(245,166,35,0.10);
+  --red:       #e8596a;
+  --red-dim:   rgba(232,89,106,0.10);
+  --blue:      #4fc3f7;
+  --blue-dim:  rgba(79,195,247,0.10);
+  --text:      #d4dce8;
+  --muted:     #5a6478;
+  --mono:      'IBM Plex Mono', monospace;
+  --sans:      'IBM Plex Sans', sans-serif;
 }
 
-/* ══ CARD ══ */
-.card{
-  background:var(--card);border-radius:var(--r);padding:14px 15px;
-  overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:var(--shadow);border:1px solid rgba(74,127,247,0.06);
-  transition:box-shadow .2s,transform .15s;
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: crosshair;
 }
-.card:hover{box-shadow:var(--shadow2);}
-.ch{flex-shrink:0;margin-bottom:9px;}
-.ct{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--t1);}
-.cs{font-size:9px;color:var(--t3);margin-top:2px;font-family:'JetBrains Mono',monospace;}
-.cf{flex:1;min-height:0;}
 
-/* ══ KPI ══ */
-.kpi{
-  background:var(--card);border-radius:var(--r);padding:14px 15px;
-  display:flex;flex-direction:column;justify-content:space-between;
-  overflow:hidden;position:relative;
-  box-shadow:var(--shadow);border:1px solid rgba(74,127,247,0.06);
-  transition:box-shadow .18s,transform .14s;cursor:default;
+/* ── scanline texture ── */
+body::before {
+  content:'';
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
 }
-.kpi:hover{box-shadow:var(--shadow2);transform:translateY(-1px);}
-.kpi::before{content:'';position:absolute;top:-22px;right:-22px;width:66px;height:66px;border-radius:50%;opacity:.12;}
-.kpi.blue::before{background:var(--blue);} .kpi.orange::before{background:var(--orange);}
-.kpi.purple::before{background:var(--purple);} .kpi.green::before{background:var(--green);} .kpi.red::before{background:var(--red);}
-.kl{font-size:9px;color:var(--t3);letter-spacing:.05em;font-family:'JetBrains Mono',monospace;}
-.kv{font-family:'Syne',sans-serif;font-size:23px;font-weight:800;letter-spacing:-.8px;line-height:1;margin:4px 0 7px;}
-.kv.blue{color:var(--blue);} .kv.orange{color:var(--orange);} .kv.purple{color:var(--purple);} .kv.green{color:var(--green);} .kv.red{color:var(--red);}
-.kd{font-family:'JetBrains Mono',monospace;font-size:9px;display:inline-flex;align-items:center;gap:2px;padding:3px 8px;border-radius:20px;font-weight:500;}
-.kd.up{background:var(--green-lt);color:var(--green);} .kd.dn{background:var(--red-lt);color:var(--red);}
 
-/* chart */
-.cw{position:relative;width:100%;height:100%;}
-.cw canvas{position:absolute;inset:0;}
+/* ── blinking cursor decoration ── */
+.blink { animation: blink 1.2s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-/* progress bars */
-.plist{display:flex;flex-direction:column;gap:7px;height:100%;justify-content:space-evenly;}
-.prow{display:flex;flex-direction:column;gap:4px;}
-.pmeta{display:flex;justify-content:space-between;font-size:9px;}
-.pn{color:var(--t2);font-weight:500;} .pp{font-family:'JetBrains Mono',monospace;color:var(--t3);}
-.pt{height:5px;background:var(--bg);border-radius:99px;overflow:hidden;}
-.pf{height:100%;border-radius:99px;}
+/* ── HEADER ── */
+header {
+  position: relative; z-index: 10;
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  gap: 32px;
+  background: rgba(10,12,15,0.95);
+  backdrop-filter: blur(8px);
+  position: sticky; top: 0;
+}
 
-/* spark / asset list */
-.slist{display:flex;flex-direction:column;gap:5px;height:100%;}
-.si{display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--card2);border-radius:10px;flex:1;transition:background .15s;}
-.si:hover{background:var(--blue-lt);}
-.stk{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;width:32px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.sn{font-size:10px;font-weight:600;color:var(--t1);flex:1;}
-.ssub{font-size:8px;color:var(--t3);}
-.sprice{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--t1);}
-.spct{font-family:'JetBrains Mono',monospace;font-size:9px;}
+.header-id {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-/* status list */
-.stlist{display:flex;flex-direction:column;gap:5px;height:100%;}
-.stitem{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--card2);border-radius:10px;flex:1;}
-.stl{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:500;color:var(--t1);}
-.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.sdot.run{background:var(--green);box-shadow:0 0 6px rgba(62,201,122,0.5);animation:pulse 1.5s ease infinite;}
-.sdot.que{background:var(--orange);} .sdot.err{background:var(--red);} .sdot.ok{background:var(--t3);}
-.chip{font-family:'JetBrains Mono',monospace;font-size:8px;padding:3px 8px;border-radius:20px;letter-spacing:.04em;font-weight:500;}
-.chip.run{background:var(--green-lt);color:var(--green);} .chip.que{background:var(--orange-lt);color:var(--orange);}
-.chip.err{background:var(--red-lt);color:var(--red);} .chip.ok{background:var(--bg);color:var(--t3);}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.5;transform:scale(0.8)}
+}
 
-/* ring */
-.ring-wrap{display:flex;align-items:center;gap:12px;height:100%;}
-.ring-svg{position:relative;width:82px;height:82px;flex-shrink:0;}
-.ring-svg svg{transform:rotate(-90deg);}
-.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.rv{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--blue);}
-.rl{font-size:8px;color:var(--t3);}
-.rms{flex:1;display:flex;flex-direction:column;gap:6px;}
-.rm{display:flex;justify-content:space-between;font-size:10px;}
-.rm span:first-child{color:var(--t2);}
-.rm span:last-child{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;}
+.header-nav {
+  display: flex; gap: 24px; margin-left: auto;
+}
+.nav-item {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-item:hover { color: var(--green); }
 
-/* donut */
-.dnut{display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:center;}
-.dnut-r{position:relative;}
-.dnut-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
-.dv{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;}
-.dl{font-size:8px;color:var(--t3);}
-.leg{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:center;}
-.li{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--t2);font-weight:500;}
-.ld{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  padding: 80px 40px 60px;
+  max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
 
-/* horizontal bars */
-.hbar-list{display:flex;flex-direction:column;gap:8px;height:100%;justify-content:center;}
-.hbar-row{display:flex;flex-direction:column;gap:3px;}
-.hbar-label{font-size:9px;color:var(--t2);font-weight:500;display:flex;justify-content:space-between;}
-.hbar-label span{font-family:'JetBrains Mono',monospace;color:var(--t3);}
-.hbar-track{height:6px;background:var(--bg);border-radius:99px;overflow:hidden;}
-.hbar-fill{height:100%;border-radius:99px;}
+.hero-left {}
 
-/* search card */
-.search-wrap{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:var(--r);padding:10px 12px;box-shadow:var(--shadow);border:1px solid rgba(74,127,247,0.06);height:100%;}
-.search-wrap input{flex:1;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:11px;color:var(--t1);background:transparent;}
-.search-wrap input::placeholder{color:var(--t3);}
-.search-btn{width:30px;height:30px;border-radius:9px;background:var(--blue);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:0 2px 8px rgba(74,127,247,0.3);}
-.search-btn svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;}
+.system-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--green);
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 24px;
+}
 
-/* grid spans */
-.sp2{grid-column:span 2;} .sp3{grid-column:span 3;} .sp4{grid-column:span 4;}
+.system-tag::before {
+  content:'';
+  display:inline-block;
+  width:20px; height:1px;
+  background: var(--green);
+}
+
+h1 {
+  font-family: var(--mono);
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+h1 .hl { color: var(--green); }
+h1 .dim { color: var(--muted); font-weight: 300; }
+
+.hero-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 440px;
+  font-weight: 300;
+}
+
+/* ── LAB CONTEXT TAGS ── */
+.context-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 28px;
+}
+
+.ctx-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  padding: 5px 12px;
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+  color: var(--text);
+  background: var(--bg3);
+  text-transform: uppercase;
+}
+
+.ctx-tag.active { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+.ctx-tag.warn   { border-color: var(--amber); color: var(--amber); background: var(--amber-dim); }
+
+/* ── HERO RIGHT — mini terminal ── */
+.terminal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.term-bar {
+  background: var(--bg3);
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.term-dot { width:10px; height:10px; border-radius:50%; }
+
+.term-body { padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+
+.term-line { display: flex; gap: 10px; align-items: flex-start; }
+.term-prompt { color: var(--green); flex-shrink: 0; }
+.term-cmd { color: var(--text); }
+.term-out { color: var(--muted); padding-left: 20px; }
+.term-out.ok  { color: var(--green); }
+.term-out.warn { color: var(--amber); }
+.term-out.err  { color: var(--red); }
+
+/* ── SECTION ── */
+.section {
+  max-width: 1200px; margin: 0 auto;
+  padding: 60px 40px;
+  position: relative; z-index: 1;
+}
+
+.sec-header {
+  display: flex; align-items: baseline; gap: 16px;
+  margin-bottom: 40px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sec-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 0.2em;
+}
+
+.sec-title {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.sec-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+/* ── USE CASE TABS ── */
+.tab-bar {
+  display: flex; gap: 0;
+  margin-bottom: 28px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.tab {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--muted);
+  background: var(--bg2);
+  border: none;
+  border-right: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.tab:last-child { border-right: none; }
+.tab:hover { color: var(--text); background: var(--bg3); }
+.tab.active { color: var(--green); background: var(--green-dim); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── MAIN COMPARISON GRID ── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.panel-head {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+
+.panel-icon {
+  font-size: 18px;
+  width: 36px; height: 36px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.panel.pbi .panel-icon { background: var(--amber-dim); }
+.panel.web .panel-icon { background: var(--blue-dim); }
+
+.panel-name {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.panel.pbi .panel-name { color: var(--amber); }
+.panel.web .panel-name { color: var(--blue); }
+
+.panel-tag {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.panel.pbi .panel-tag { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,166,35,0.2); }
+.panel.web .panel-tag { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(79,195,247,0.2); }
+
+/* ── ITEM LIST ── */
+.item-list {
+  padding: 16px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.018);
+  border: 1px solid transparent;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: default;
+}
+
+.item:hover { background: rgba(255,255,255,0.04); }
+
+.item.pro:hover { border-color: rgba(82,214,138,0.2); }
+.item.con:hover { border-color: rgba(232,89,106,0.2); }
+.item.note:hover { border-color: rgba(245,166,35,0.2); }
+
+.item-marker {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 1px;
+  width: 16px;
+}
+
+.item.pro  .item-marker { color: var(--green); }
+.item.con  .item-marker { color: var(--red); }
+.item.note .item-marker { color: var(--amber); }
+
+.item-text {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.item-text strong {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+  font-size: 12px;
+}
+
+.item.pro  .item-text strong { color: var(--green); }
+.item.con  .item-text strong { color: var(--red); }
+.item.note .item-text strong { color: var(--amber); }
+
+.item-text small { color: var(--muted); font-size: 11px; }
+
+.divider-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 12px 4px;
+  opacity: 0.6;
+}
+
+/* ── SCORE BAR ── */
+.score-row {
+  padding: 16px 22px;
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+.score-label {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.score-label span:last-child { color: var(--text); }
+
+.score-track {
+  height: 4px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+  width: 0%;
+}
+
+.panel.pbi .score-fill { background: var(--amber); }
+.panel.web .score-fill { background: var(--blue); }
+
+/* ── VERDICT TABLE ── */
+.verdict-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.verdict-table th {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+
+.verdict-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.verdict-table tr:last-child td { border-bottom: none; }
+.verdict-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.verdict-table td:first-child {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  white-space: nowrap;
+  width: 180px;
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+
+.badge.pbi { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,166,35,0.2); }
+.badge.web { background: var(--blue-dim);  color: var(--blue);  border: 1px solid rgba(79,195,247,0.2); }
+.badge.both{ background: var(--green-dim); color: var(--green); border: 1px solid rgba(82,214,138,0.2); }
+
+/* ── RECOMMENDATION BOX ── */
+.rec-box {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rec-box::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background: linear-gradient(90deg, var(--amber), var(--green), var(--blue));
+}
+
+.rec-col {}
+
+.rec-col-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.rec-col-title::after {
+  content:'';
+  flex:1;height:1px;
+  background: var(--border);
+}
+
+.rec-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.rec-item::before {
+  content:'→';
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--green);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative; z-index: 1;
+}
+
+.footer-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.footer-bar {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.on { opacity:1; transform:translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:760px){
+  .hero { grid-template-columns:1fr; gap:32px; padding:40px 20px; }
+  .main-grid { grid-template-columns:1fr; }
+  .rec-box { grid-template-columns:1fr; }
+  .section { padding:40px 20px; }
+  header { padding:0 20px; }
+  .header-nav { display:none; }
+}
 </style>
 </head>
 <body>
-<div id="shell">
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="sb-logo">NX</div>
-    <div class="sb-div"></div>
-    <div class="sb-icon active" title="Dashboard">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
-    </div>
-    <div class="sb-icon" title="Analytics">
-      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    </div>
-    <div class="sb-icon" title="Lab">
-      <svg viewBox="0 0 24 24"><path d="M9 3h6M9 3v7l-4 7a1 1 0 0 0 .9 1.5h12.2a1 1 0 0 0 .9-1.5L15 10V3"/></svg>
-    </div>
-    <div class="sb-icon" title="Watchlist">
-      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-    </div>
-    <div class="sb-div"></div>
-    <div class="sb-icon" title="Settings">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    </div>
-    <div class="sb-icon" title="Menu" style="margin-top:auto;">
-      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+<!-- HEADER -->
+<header>
+  <div class="header-id">
+    <div class="status-dot"></div>
+    LAB_SYS // DECISION_MATRIX v2.1
+  </div>
+  <nav class="header-nav">
+    <a class="nav-item" href="#procon">PRO/CON</a>
+    <a class="nav-item" href="#tasks">BY TASK</a>
+    <a class="nav-item" href="#verdict">VERDICT</a>
+    <a class="nav-item" href="#rec">RECOMMENDATION</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="system-tag">Lab Testing System — Tool Selection</div>
+    <h1>
+      <span class="dim">Which tool for</span><br>
+      your <span class="hl">lab</span>?<span class="blink" style="color:var(--green)">_</span>
+    </h1>
+    <p class="hero-desc">
+      You need: parameter testing, quantitative analysis, forecasting, revenue/avenue modelling, and a predictive model. Here's exactly which tool does which job — and why.
+    </p>
+    <div class="context-tags">
+      <div class="ctx-tag active">Parameter Testing</div>
+      <div class="ctx-tag active">Quant Analysis</div>
+      <div class="ctx-tag active">Forecasting</div>
+      <div class="ctx-tag warn">Revenue Modelling</div>
+      <div class="ctx-tag warn">Predictive Model</div>
+      <div class="ctx-tag">Reporting</div>
     </div>
   </div>
 
-  <!-- MAIN -->
-  <div class="main">
-
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="page-title">NEX<em>US</em></div>
-      <div class="vline"></div>
-      <div class="df-group">
-        <button class="df-btn active" onclick="setFilter(this,'daily')">DAILY</button>
-        <button class="df-btn" onclick="setFilter(this,'weekly')">WEEKLY</button>
-        <button class="df-btn" onclick="setFilter(this,'monthly')">MONTHLY</button>
-        <button class="df-btn" onclick="setFilter(this,'yearly')">YEARLY</button>
-      </div>
-      <div class="vline"></div>
-      <div class="dr">
-        <input class="di" type="date" id="d1" value="2026-01-01">
-        <span class="dsep">→</span>
-        <input class="di" type="date" id="d2" value="2026-03-21">
-        <button class="dapply" onclick="applyRange()">Apply</button>
-      </div>
-      <div class="tab-row">
-        <button class="tab active" onclick="setTab(this,'overview')">Overview</button>
-        <button class="tab" onclick="setTab(this,'financial')">Financial</button>
-        <button class="tab" onclick="setTab(this,'lab')">Lab</button>
-      </div>
-      <div class="vline"></div>
-      <div class="live"><div class="ldot"></div>LIVE</div>
-      <div class="clk" id="clock">--:--:--</div>
+  <div class="terminal">
+    <div class="term-bar">
+      <div class="term-dot" style="background:#e8596a"></div>
+      <div class="term-dot" style="background:#f5a623"></div>
+      <div class="term-dot" style="background:#52d68a"></div>
+      <span style="font-size:10px;color:var(--muted);margin-left:8px">lab_context_eval.sh</span>
     </div>
-
-    <!-- ════ OVERVIEW ════ -->
-    <div id="sec-overview" class="section active">
-      <div class="kpi blue">
-        <div class="kl">TOTAL REVENUE</div>
-        <div class="kv blue">$4.83M</div>
-        <div class="kd up">↑ 18.4%</div>
+    <div class="term-body">
+      <div class="term-line">
+        <span class="term-prompt">$</span>
+        <span class="term-cmd">eval_context --lab --mode=full</span>
       </div>
-      <div class="kpi orange">
-        <div class="kl">NET EXPENSES</div>
-        <div class="kv orange">$1.27M</div>
-        <div class="kd dn">↑ 4.1%</div>
-      </div>
-      <div class="kpi purple">
-        <div class="kl">GROSS PROFIT</div>
-        <div class="kv purple">$3.56M</div>
-        <div class="kd up">↑ 22.7%</div>
-      </div>
-      <div class="kpi green">
-        <div class="kl">ACTIVE RUNS</div>
-        <div class="kv green">7</div>
-        <div class="kd up">↑ 2 new</div>
-      </div>
-      <div class="search-wrap">
-        <input type="text" placeholder="Search metrics, assets…">
-        <div class="search-btn">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </div>
-      </div>
-
-      <!-- Main chart -->
-      <div class="card sp3">
-        <div class="ch">
-          <div class="ct">Revenue vs Expenses</div>
-          <div class="cs" id="ov-period">Today · Hourly</div>
-        </div>
-        <div class="cf"><div class="cw"><canvas id="ovMainChart"></canvas></div></div>
-      </div>
-
-      <!-- Ring quality -->
-      <div class="card">
-        <div class="ch"><div class="ct">Lab Quality</div><div class="cs">Composite index</div></div>
-        <div class="cf">
-          <div class="ring-wrap">
-            <div class="ring-svg">
-              <svg width="82" height="82" viewBox="0 0 82 82">
-                <circle cx="41" cy="41" r="33" fill="none" stroke="#EBF0FB" stroke-width="7"/>
-                <circle cx="41" cy="41" r="33" fill="none" stroke="url(#rg1)" stroke-width="7"
-                  stroke-dasharray="207.3" stroke-dashoffset="41" stroke-linecap="round"/>
-                <defs><linearGradient id="rg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#4A7CF7"/><stop offset="100%" stop-color="#7C6FF7"/>
-                </linearGradient></defs>
-              </svg>
-              <div class="ring-c"><div class="rv">82</div><div class="rl">/100</div></div>
-            </div>
-            <div class="rms">
-              <div class="rm"><span>Reproducibility</span><span style="color:var(--green)">94%</span></div>
-              <div class="rm"><span>Data Integrity</span><span style="color:var(--blue)">88%</span></div>
-              <div class="rm"><span>Timeline</span><span style="color:var(--orange)">71%</span></div>
-              <div class="rm"><span>Error Rate</span><span style="color:var(--red)">6.2%</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- small area chart -->
-      <div class="card">
-        <div class="ch"><div class="ct">Profit Trend</div><div class="cs">Area view</div></div>
-        <div class="cf"><div class="cw"><canvas id="ovArea1"></canvas></div></div>
-      </div>
-
-      <!-- Row 3 -->
-      <div class="card sp2">
-        <div class="ch"><div class="ct">Experiment Progress</div><div class="cs">Active pipelines</div></div>
-        <div class="cf plist">
-          <div class="prow"><div class="pmeta"><span class="pn">Protein Synthesis EXP-44</span><span class="pp">87%</span></div><div class="pt"><div class="pf" style="width:87%;background:var(--blue)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">CRISPR Trial B-09</span><span class="pp">63%</span></div><div class="pt"><div class="pf" style="width:63%;background:var(--orange)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">Neural Signal Model</span><span class="pp">41%</span></div><div class="pt"><div class="pf" style="width:41%;background:var(--purple)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">Compound Analysis X-7</span><span class="pp">95%</span></div><div class="pt"><div class="pf" style="width:95%;background:var(--blue)"></div></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Daily Tests</div><div class="cs">Weekly throughput</div></div>
-        <div class="cf"><div class="cw"><canvas id="ovBarsChart"></canvas></div></div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Budget Split</div><div class="cs">$2.1M total</div></div>
-        <div class="cf dnut">
-          <div class="dnut-r">
-            <canvas id="ovDonut" width="100" height="100"></canvas>
-            <div class="dnut-c"><div class="dv" style="color:var(--blue)">$2.1M</div><div class="dl">total</div></div>
-          </div>
-          <div class="leg">
-            <div class="li"><div class="ld" style="background:var(--blue)"></div>R&D 42%</div>
-            <div class="li"><div class="ld" style="background:var(--orange)"></div>Ops 28%</div>
-            <div class="li"><div class="ld" style="background:var(--purple)"></div>Infra 18%</div>
-            <div class="li"><div class="ld" style="background:#AAB8D0"></div>Other 12%</div>
-          </div>
-        </div>
+      <div class="term-line"><span class="term-out ok">✓ parameter_tracking    → detected</span></div>
+      <div class="term-line"><span class="term-out ok">✓ quant_analysis        → detected</span></div>
+      <div class="term-line"><span class="term-out ok">✓ forecasting           → detected</span></div>
+      <div class="term-line"><span class="term-out ok">✓ avenue_modelling      → detected</span></div>
+      <div class="term-line"><span class="term-out warn">⚠ predictive_model      → needs custom build</span></div>
+      <div class="term-line"><span class="term-out warn">⚠ reporting_system      → hybrid recommended</span></div>
+      <div class="term-line">
+        <span class="term-prompt">$</span>
+        <span class="term-cmd">recommend --output=decision_matrix<span class="blink">_</span></span>
       </div>
     </div>
-
-    <!-- ════ FINANCIAL ════ -->
-    <div id="sec-financial" class="section">
-      <div class="kpi blue"><div class="kl">REVENUE</div><div class="kv blue">$4.83M</div><div class="kd up">↑ 18.4%</div></div>
-      <div class="kpi orange"><div class="kl">EXPENSES</div><div class="kv orange">$1.27M</div><div class="kd dn">↑ 4.1%</div></div>
-      <div class="kpi purple"><div class="kl">GROSS PROFIT</div><div class="kv purple">$3.56M</div><div class="kd up">↑ 22.7%</div></div>
-      <div class="kpi green"><div class="kl">BURN / MO</div><div class="kv green">$89K</div><div class="kd up">↓ 6.2%</div></div>
-
-      <div class="card sp2">
-        <div class="ch"><div class="ct">Revenue & Expenses</div><div class="cs" id="fin-period">Today · Hourly</div></div>
-        <div class="cf"><div class="cw"><canvas id="finBarChart"></canvas></div></div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Budget Allocation</div><div class="cs">$2.1M total</div></div>
-        <div class="cf dnut">
-          <div class="dnut-r"><canvas id="finBudgDonut" width="100" height="100"></canvas>
-          <div class="dnut-c"><div class="dv" style="color:var(--blue)">42%</div><div class="dl">R&D</div></div></div>
-          <div class="leg">
-            <div class="li"><div class="ld" style="background:var(--blue)"></div>R&D</div>
-            <div class="li"><div class="ld" style="background:var(--orange)"></div>Ops</div>
-            <div class="li"><div class="ld" style="background:var(--purple)"></div>Infra</div>
-            <div class="li"><div class="ld" style="background:#AAB8D0"></div>Other</div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Trial Outcomes</div><div class="cs">This quarter</div></div>
-        <div class="cf dnut">
-          <div class="dnut-r"><canvas id="finTrialDonut" width="100" height="100"></canvas>
-          <div class="dnut-c"><div class="dv" style="color:var(--blue)">58%</div><div class="dl">passed</div></div></div>
-          <div class="leg">
-            <div class="li"><div class="ld" style="background:var(--blue)"></div>Pass</div>
-            <div class="li"><div class="ld" style="background:var(--orange)"></div>Fail</div>
-            <div class="li"><div class="ld" style="background:#C8D9FD"></div>Pend</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="ch"><div class="ct">Profit Trend</div><div class="cs">Net margin</div></div>
-        <div class="cf"><div class="cw"><canvas id="finProfitChart"></canvas></div></div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Portfolio</div><div class="cs">Live positions</div></div>
-        <div class="cf slist">
-          <div class="si"><div class="stk" style="background:var(--blue-lt);color:var(--blue)">AAPL</div><div><div class="sn">Apple Inc.</div><div class="ssub">220 shares</div></div><div style="margin-left:auto;text-align:right"><div class="sprice">$198.42</div><div class="spct" style="color:var(--green)">+2.4%</div></div></div>
-          <div class="si"><div class="stk" style="background:var(--orange-lt);color:var(--orange)">NVDA</div><div><div class="sn">NVIDIA Corp.</div><div class="ssub">85 shares</div></div><div style="margin-left:auto;text-align:right"><div class="sprice">$876.10</div><div class="spct" style="color:var(--green)">+5.1%</div></div></div>
-          <div class="si"><div class="stk" style="background:#EDE8FE;color:var(--purple)">TSLA</div><div><div class="sn">Tesla Inc.</div><div class="ssub">310 shares</div></div><div style="margin-left:auto;text-align:right"><div class="sprice">$183.57</div><div class="spct" style="color:var(--red)">-1.8%</div></div></div>
-          <div class="si"><div class="stk" style="background:var(--green-lt);color:var(--green)">BTC</div><div><div class="sn">Bitcoin</div><div class="ssub">1.45 BTC</div></div><div style="margin-left:auto;text-align:right"><div class="sprice">$85.2K</div><div class="spct" style="color:var(--green)">+3.9%</div></div></div>
-          <div class="si"><div class="stk" style="background:var(--red-lt);color:var(--red)">ETH</div><div><div class="sn">Ethereum</div><div class="ssub">4.2 ETH</div></div><div style="margin-left:auto;text-align:right"><div class="sprice">$3,912</div><div class="spct" style="color:var(--green)">+1.2%</div></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Cash Flow</div><div class="cs">Cumulative net</div></div>
-        <div class="cf"><div class="cw"><canvas id="finCashChart"></canvas></div></div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Spend by Category</div><div class="cs">Horizontal breakdown</div></div>
-        <div class="cf hbar-list">
-          <div class="hbar-row"><div class="hbar-label">R&D · $882K<span>42%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:84%;background:var(--blue)"></div></div></div>
-          <div class="hbar-row"><div class="hbar-label">Ops · $588K<span>28%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:56%;background:var(--orange)"></div></div></div>
-          <div class="hbar-row"><div class="hbar-label">Infra · $378K<span>18%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:36%;background:var(--purple)"></div></div></div>
-          <div class="hbar-row"><div class="hbar-label">HR · $168K<span>8%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:22%;background:var(--green)"></div></div></div>
-          <div class="hbar-row"><div class="hbar-label">Other · $84K<span>4%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:10%;background:#AAB8D0"></div></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════ LAB ════ -->
-    <div id="sec-lab" class="section">
-      <div class="kpi purple"><div class="kl">QUALITY SCORE</div><div class="kv purple">82/100</div><div class="kd up">↑ 6 pts</div></div>
-      <div class="kpi green"><div class="kl">ACTIVE RUNS</div><div class="kv green">7</div><div class="kd up">↑ 2</div></div>
-      <div class="kpi blue"><div class="kl">TESTS TODAY</div><div class="kv blue">247</div><div class="kd up">↑ 12%</div></div>
-      <div class="kpi red"><div class="kl">FAILURE RATE</div><div class="kv red">6.2%</div><div class="kd up">↓ 1.4%</div></div>
-
-      <div class="card">
-        <div class="ch"><div class="ct">Experiment Progress</div><div class="cs">Active pipelines</div></div>
-        <div class="cf plist">
-          <div class="prow"><div class="pmeta"><span class="pn">Protein Synthesis EXP-44</span><span class="pp">87%</span></div><div class="pt"><div class="pf" style="width:87%;background:var(--blue)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">CRISPR Trial B-09</span><span class="pp">63%</span></div><div class="pt"><div class="pf" style="width:63%;background:var(--orange)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">Neural Signal Model</span><span class="pp">41%</span></div><div class="pt"><div class="pf" style="width:41%;background:var(--purple)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">Compound Analysis X-7</span><span class="pp">95%</span></div><div class="pt"><div class="pf" style="width:95%;background:var(--blue)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">Genomic Sequencing R2</span><span class="pp">28%</span></div><div class="pt"><div class="pf" style="width:28%;background:var(--orange)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">Membrane Study K-3</span><span class="pp">72%</span></div><div class="pt"><div class="pf" style="width:72%;background:var(--purple)"></div></div></div>
-          <div class="prow"><div class="pmeta"><span class="pn">Cell Culture Array</span><span class="pp">55%</span></div><div class="pt"><div class="pf" style="width:55%;background:var(--blue)"></div></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Run Status</div><div class="cs">Pipeline health</div></div>
-        <div class="cf stlist">
-          <div class="stitem"><div class="stl"><div class="sdot run"></div>EXP-44 · Batch 3</div><div class="chip run">RUNNING</div></div>
-          <div class="stitem"><div class="stl"><div class="sdot run"></div>CRISPR-B09 · Pass 2</div><div class="chip run">RUNNING</div></div>
-          <div class="stitem"><div class="stl"><div class="sdot run"></div>Membrane-K3</div><div class="chip run">RUNNING</div></div>
-          <div class="stitem"><div class="stl"><div class="sdot que"></div>Neural · Init queue</div><div class="chip que">QUEUED</div></div>
-          <div class="stitem"><div class="stl"><div class="sdot que"></div>EXP-46 · Waiting</div><div class="chip que">QUEUED</div></div>
-          <div class="stitem"><div class="stl"><div class="sdot err"></div>Genomic-R2 · Err 403</div><div class="chip err">FAILED</div></div>
-          <div class="stitem"><div class="stl"><div class="sdot ok"></div>Compound-X7 · Done</div><div class="chip ok">DONE</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Quality Score</div><div class="cs">Performance index</div></div>
-        <div class="cf" style="display:flex;flex-direction:column;gap:10px;">
-          <div class="ring-wrap">
-            <div class="ring-svg">
-              <svg width="82" height="82" viewBox="0 0 82 82">
-                <circle cx="41" cy="41" r="33" fill="none" stroke="#EBF0FB" stroke-width="7"/>
-                <circle cx="41" cy="41" r="33" fill="none" stroke="url(#rg2)" stroke-width="7"
-                  stroke-dasharray="207.3" stroke-dashoffset="41" stroke-linecap="round"/>
-                <defs><linearGradient id="rg2" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#4A7CF7"/><stop offset="100%" stop-color="#7C6FF7"/>
-                </linearGradient></defs>
-              </svg>
-              <div class="ring-c"><div class="rv">82</div><div class="rl">/100</div></div>
-            </div>
-            <div class="rms">
-              <div class="rm"><span>Reproducibility</span><span style="color:var(--green)">94%</span></div>
-              <div class="rm"><span>Data Integrity</span><span style="color:var(--blue)">88%</span></div>
-              <div class="rm"><span>Timeline</span><span style="color:var(--orange)">71%</span></div>
-              <div class="rm"><span>Error Rate</span><span style="color:var(--red)">6.2%</span></div>
-            </div>
-          </div>
-          <div style="flex:1;min-height:0;"><div class="cw"><canvas id="labTestsChart"></canvas></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ch"><div class="ct">Trial Outcomes</div><div class="cs">This quarter</div></div>
-        <div class="cf dnut">
-          <div class="dnut-r"><canvas id="labTrialDonut" width="110" height="110"></canvas>
-          <div class="dnut-c"><div class="dv" style="color:var(--blue);font-size:16px">58%</div><div class="dl">passed</div></div></div>
-          <div class="leg">
-            <div class="li"><div class="ld" style="background:var(--blue)"></div>Passed 58%</div>
-            <div class="li"><div class="ld" style="background:var(--orange)"></div>Failed 18%</div>
-            <div class="li"><div class="ld" style="background:var(--blue-lt)"></div>Pending 24%</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 
+<!-- PRO CON SECTION -->
+<div class="section" id="procon">
+  <div class="sec-header reveal">
+    <span class="sec-num">// 01</span>
+    <span class="sec-title">Power BI vs Web — Lab Context</span>
+    <span class="sec-sub">Click tabs to filter by task type</span>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar reveal">
+    <button class="tab active" onclick="switchTab('all')">All Tasks</button>
+    <button class="tab" onclick="switchTab('param')">Parameter Testing</button>
+    <button class="tab" onclick="switchTab('quant')">Quant + Forecast</button>
+    <button class="tab" onclick="switchTab('model')">Predictive Model</button>
+    <button class="tab" onclick="switchTab('report')">Reports</button>
+  </div>
+
+  <!-- ALL -->
+  <div class="tab-content active" id="tab-all">
+    <div class="main-grid">
+
+      <!-- POWER BI PANEL -->
+      <div class="panel pbi reveal">
+        <div class="panel-head">
+          <div class="panel-icon">📊</div>
+          <div>
+            <div class="panel-name">Power BI</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px">Microsoft BI Platform</div>
+          </div>
+          <div class="panel-tag">Analytics Engine</div>
+        </div>
+
+        <div class="item-list">
+          <div class="divider-label">✦ Strengths for your lab</div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Parameter dashboards in hours</strong>
+              Connect your lab DB or Excel sheets and build parameter tracking visuals same day — no developer needed.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Built-in forecasting with one click</strong>
+              Power BI has native forecast lines on time series — just enable Analytics pane. Good for trending parameters over time.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>DAX for complex quant calculations</strong>
+              Moving averages, control limits (UCL/LCL), Cpk, standard deviation — all doable with DAX formulas.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Revenue / avenue analysis fast</strong>
+              Connect financial data alongside lab data, correlate parameter quality with revenue impact visually.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Scheduled refresh + alerts</strong>
+              Set data refresh every hour. Set alerts when a parameter crosses threshold — email or Teams notification automatically.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Share reports with management instantly</strong>
+              Publish to web or Teams — stakeholders see live reports without needing to install anything.
+            </div>
+          </div>
+
+          <div class="divider-label" style="margin-top:8px">✦ Weaknesses for your lab</div>
+
+          <div class="item con">
+            <span class="item-marker">–</span>
+            <div class="item-text">
+              <strong>Cannot run real ML / prediction models</strong>
+              Power BI has basic trend lines but cannot run regression, random forest, neural net, or custom models. You'd need Python/R visual — which is limited and not production-ready.
+            </div>
+          </div>
+
+          <div class="item con">
+            <span class="item-marker">–</span>
+            <div class="item-text">
+              <strong>No data entry from the lab</strong>
+              Lab techs cannot input test results directly into Power BI. It's read-only. You still need a separate input system.
+            </div>
+          </div>
+
+          <div class="item con">
+            <span class="item-marker">–</span>
+            <div class="item-text">
+              <strong>Cannot build a custom lab workflow</strong>
+              Sample tracking, test assignment, pass/fail logic with alerts, approval flows — Power BI doesn't support these. It's a viewer, not a system.
+            </div>
+          </div>
+
+          <div class="item con">
+            <span class="item-marker">–</span>
+            <div class="item-text">
+              <strong>Predictive model outputs cannot feed back in</strong>
+              Even if you run a Python model externally, you can't easily close the loop — model recommends parameter adjustment, lab acts, Power BI just shows history.
+            </div>
+          </div>
+
+          <div class="item note">
+            <span class="item-marker">!</span>
+            <div class="item-text">
+              <strong>Licensing cost per user</strong>
+              <small>Power BI Pro is ~$10/user/month. For a small lab team this is fine. For many external stakeholders sharing reports, it gets expensive.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="score-row" data-scores="90,80,30,20,85">
+          <div class="score-label"><span>REPORTING</span><span>90%</span></div>
+          <div class="score-track"><div class="score-fill" style="width:90%"></div></div>
+          <div class="score-label" style="margin-top:6px"><span>FORECASTING</span><span>75%</span></div>
+          <div class="score-track"><div class="score-fill" style="width:75%"></div></div>
+          <div class="score-label" style="margin-top:6px"><span>PREDICTIVE MODEL</span><span>15%</span></div>
+          <div class="score-track"><div class="score-fill" style="width:15%"></div></div>
+          <div class="score-label" style="margin-top:6px"><span>CUSTOM WORKFLOW</span><span>10%</span></div>
+          <div class="score-track"><div class="score-fill" style="width:10%"></div></div>
+        </div>
+      </div>
+
+      <!-- WEB PANEL -->
+      <div class="panel web reveal" style="transition-delay:0.15s">
+        <div class="panel-head">
+          <div class="panel-icon">🌐</div>
+          <div>
+            <div class="panel-name">Web System</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px">Custom App + Python/API Backend</div>
+          </div>
+          <div class="panel-tag">Full System</div>
+        </div>
+
+        <div class="item-list">
+          <div class="divider-label">✦ Strengths for your lab</div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Full predictive model integration</strong>
+              Connect a Python backend (scikit-learn, XGBoost, LSTM) directly. Model trains on your lab data, predictions display in real time in the web UI.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Lab data entry + workflow in one place</strong>
+              Techs log test results, upload files, mark pass/fail — all in the same system that shows analytics. One source of truth.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Custom parameter logic and alerts</strong>
+              Build exact business rules — if pH drops below 6.5 AND temperature spikes, send alert + flag sample. Unlimited logic complexity.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Revenue / avenue model can be interactive</strong>
+              Build a live what-if simulator — adjust input parameters, see predicted revenue impact instantly. Power BI cannot do this interactively.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Scales to external stakeholders for free</strong>
+              Share with clients, auditors, or partners without per-seat licensing. Build role-based views for different audiences.
+            </div>
+          </div>
+
+          <div class="item pro">
+            <span class="item-marker">+</span>
+            <div class="item-text">
+              <strong>Closed-loop: model output drives action</strong>
+              Model predicts parameter drift → system auto-flags batch → tech gets task → adjusts → new data feeds model. Full loop.
+            </div>
+          </div>
+
+          <div class="divider-label" style="margin-top:8px">✦ Weaknesses for your lab</div>
+
+          <div class="item con">
+            <span class="item-marker">–</span>
+            <div class="item-text">
+              <strong>Needs a developer to build it</strong>
+              You cannot drag-and-drop. You need a developer (or a data scientist who codes) to build the system. Takes weeks, not hours.
+            </div>
+          </div>
+
+          <div class="item con">
+            <span class="item-marker">–</span>
+            <div class="item-text">
+              <strong>Higher upfront cost and effort</strong>
+              Server, deployment, maintenance, database — all must be set up and managed. Ongoing dev time for changes.
+            </div>
+          </div>
+
+          <div class="item con">
+            <span class="item-marker">–</span>
+            <div class="item-text">
+              <strong>No instant business intelligence</strong>
+              You must code every chart, every filter, every aggregation. Power BI gives you 80% of BI features in day 1 — web gives you 0% until you build it.
+            </div>
+          </div>
+
+          <div class="item con">
+            <span class="item-marker">–</span>
+            <div class="item-text">
+              <strong>Business users cannot self-serve analytics</strong>
+              If management wants to slice data differently, they need to ask a developer. Power BI lets them explore on their own.
+            </div>
+          </div>
+
+          <div class="item note">
+            <span class="item-marker">!</span>
+            <div class="item-text">
+              <strong>Complexity scales with your needs</strong>
+              <small>A simple parameter tracker web app is buildable in 1-2 weeks. A full ML pipeline with forecasting, revenue modelling, and workflow takes 2-4 months of serious engineering.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="score-row">
+          <div class="score-label"><span>REPORTING</span><span>70%</span></div>
+          <div class="score-track"><div class="score-fill" style="width:70%;background:var(--blue)"></div></div>
+          <div class="score-label" style="margin-top:6px"><span>FORECASTING</span><span>95%</span></div>
+          <div class="score-track"><div class="score-fill" style="width:95%;background:var(--blue)"></div></div>
+          <div class="score-label" style="margin-top:6px"><span>PREDICTIVE MODEL</span><span>95%</span></div>
+          <div class="score-track"><div class="score-fill" style="width:95%;background:var(--blue)"></div></div>
+          <div class="score-label" style="margin-top:6px"><span>CUSTOM WORKFLOW</span><span>95%</span></div>
+          <div class="score-track"><div class="score-fill" style="width:95%;background:var(--blue)"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PARAM TAB -->
+  <div class="tab-content" id="tab-param">
+    <div class="main-grid">
+      <div class="panel pbi reveal">
+        <div class="panel-head"><div class="panel-icon">📊</div><div><div class="panel-name">Power BI</div></div><div class="panel-tag">✓ Good fit</div></div>
+        <div class="item-list">
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Connect lab DB directly</strong>Link your SQL/MySQL database where test results are stored. Build parameter cards, trend charts, control charts instantly.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>UCL / LCL control limits with DAX</strong>Calculate upper and lower control limits as DAX measures and overlay on any parameter chart — SPC charts are straightforward.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Colour-coded pass/fail at a glance</strong>Conditional formatting turns any out-of-spec value red automatically — managers see parameter health instantly.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>Cannot log new test data</strong>Techs still need another system to enter results. Power BI only reads — it cannot be the input system.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>Refresh lag</strong>Data updates on a schedule (every 15 min minimum on standard plan). Not suitable if you need real-time parameter monitoring during a live test run.</div></div>
+        </div>
+      </div>
+      <div class="panel web reveal" style="transition-delay:0.15s">
+        <div class="panel-head"><div class="panel-icon">🌐</div><div><div class="panel-name">Web System</div></div><div class="panel-tag">✓ Best fit</div></div>
+        <div class="item-list">
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Real-time parameter monitoring</strong>WebSocket connection streams test data as it happens — watch pH, temperature, pressure update live on screen during a run.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Techs log data in the same app</strong>Input form + dashboard in one place. Tech enters result, chart updates immediately. No separate spreadsheet or LIMS needed.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Custom business rules per parameter</strong>Each parameter can have its own logic — different alert thresholds per product line, per batch type, per client spec.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>More time to build initial setup</strong>Takes developer time to set up the data model, UI, and logic. Power BI gets you a usable dashboard in a day.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUANT TAB -->
+  <div class="tab-content" id="tab-quant">
+    <div class="main-grid">
+      <div class="panel pbi reveal">
+        <div class="panel-head"><div class="panel-icon">📊</div><div><div class="panel-name">Power BI</div></div><div class="panel-tag">~ Partial fit</div></div>
+        <div class="item-list">
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Native forecasting on time series</strong>Click "Analytics" pane on any line chart → add forecast. Adjustable confidence interval. Fast for basic trend projection on parameters or revenue.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Statistical summaries in DAX</strong>Mean, median, standard deviation, percentile, correlation — all possible in DAX. Good for quant summary reports.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>Forecast is only linear + seasonal</strong>Power BI's built-in forecast uses exponential smoothing. Cannot do ARIMA, Prophet, LSTM, or custom models for complex lab parameter forecasting.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>No what-if simulation</strong>What if we change parameter A — how does that affect output B? Power BI cannot run that simulation. It only shows historical data.</div></div>
+          <div class="item note"><span class="item-marker">!</span><div class="item-text"><strong>Python visual workaround exists but is clunky</strong><small>You can embed a Python matplotlib chart in Power BI — but it's slow, limited in interaction, and not production-grade for a model.</small></div></div>
+        </div>
+      </div>
+      <div class="panel web reveal" style="transition-delay:0.15s">
+        <div class="panel-head"><div class="panel-icon">🌐</div><div><div class="panel-name">Web + Python Backend</div></div><div class="panel-tag">✓ Best fit</div></div>
+        <div class="item-list">
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Any forecasting algorithm you need</strong>Prophet for seasonality, ARIMA for time series, XGBoost for multi-parameter prediction — all run in Python backend, results served to web UI.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Interactive what-if for avenue modelling</strong>Sliders for parameters → model reruns → predicted revenue updates live. This is the most powerful tool for avenue analysis.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Full quant pipeline</strong>Data cleaning → feature engineering → model training → prediction → visualisation — all in one automated pipeline.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>Needs data science + dev skills</strong>Someone must build and maintain the forecasting pipeline. This is not a point-and-click operation.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODEL TAB -->
+  <div class="tab-content" id="tab-model">
+    <div class="main-grid">
+      <div class="panel pbi reveal">
+        <div class="panel-head"><div class="panel-icon">📊</div><div><div class="panel-name">Power BI</div></div><div class="panel-tag">✗ Not suitable</div></div>
+        <div class="item-list">
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>Cannot train ML models</strong>Power BI is a visualisation tool — it cannot train, store, or serve a machine learning model. Full stop.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>Python visual is not a model deployment platform</strong>You can show a matplotlib chart in Power BI but you cannot run inference, update a model with new data, or version-control it.</div></div>
+          <div class="item note"><span class="item-marker">!</span><div class="item-text"><strong>Use Power BI only to DISPLAY model results</strong><small>If your Python model runs elsewhere and outputs predictions to a database, Power BI can display those predictions. But it cannot be where the model lives.</small></div></div>
+        </div>
+      </div>
+      <div class="panel web reveal" style="transition-delay:0.15s">
+        <div class="panel-head"><div class="panel-icon">🌐</div><div><div class="panel-name">Web + Python/API</div></div><div class="panel-tag">✓ Only real option</div></div>
+        <div class="item-list">
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>FastAPI or Flask serves model predictions</strong>Build a Python API that exposes your trained model. Web frontend sends parameters → API returns prediction → result shown instantly.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Model retrains on new lab data automatically</strong>Set up a pipeline: every night, new test data feeds the model, it retrains, updated predictions appear next morning.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Version control and model comparison</strong>Track model v1 vs v2 accuracy. Compare predictions vs actual lab outcomes. Improve the model over time with real data.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Explainability layer possible</strong>Show SHAP values in the UI — "parameter X contributed 38% to this prediction" — so lab scientists understand why the model says what it says.</div></div>
+          <div class="item note"><span class="item-marker">!</span><div class="item-text"><strong>Stack recommendation for your model</strong><small>Python (scikit-learn / XGBoost / PyTorch) + FastAPI backend + React or plain HTML frontend. This is a proven, maintainable lab ML stack.</small></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORT TAB -->
+  <div class="tab-content" id="tab-report">
+    <div class="main-grid">
+      <div class="panel pbi reveal">
+        <div class="panel-head"><div class="panel-icon">📊</div><div><div class="panel-name">Power BI</div></div><div class="panel-tag">✓ Best fit</div></div>
+        <div class="item-list">
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Management reports in minutes</strong>Drag-and-drop KPI cards, parameter trend charts, revenue comparisons — polished report ready to share with leadership same day.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Automatic scheduled delivery</strong>Set up a subscription — report emailed to management every Monday 8AM with fresh data. Zero manual effort after setup.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Interactive drill-down for stakeholders</strong>Management can click a chart, filter by date, drill into a specific parameter — without needing a developer or IT support.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Paginated reports for compliance</strong>Power BI paginated reports generate PDF-style fixed-format reports suitable for regulatory submission or audit trails.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>Limited branding / white-label</strong>Reports look like Power BI. Good enough for internal use, but not if you're sharing externally with clients who expect your branded interface.</div></div>
+        </div>
+      </div>
+      <div class="panel web reveal" style="transition-delay:0.15s">
+        <div class="panel-head"><div class="panel-icon">🌐</div><div><div class="panel-name">Web System</div></div><div class="panel-tag">~ More effort</div></div>
+        <div class="item-list">
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>Fully branded client-facing reports</strong>If you share lab results with external clients, a web report matches your brand perfectly — logo, colours, custom layout.</div></div>
+          <div class="item pro"><span class="item-marker">+</span><div class="item-text"><strong>No per-seat licensing for clients</strong>External clients access reports for free — no need for them to have a Power BI license.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>Every chart must be coded</strong>Each report view, each filter, each export button — all coded manually. Power BI gives you 80% of reporting in day 1. Web takes weeks to match it.</div></div>
+          <div class="item con"><span class="item-marker">–</span><div class="item-text"><strong>No self-service for management</strong>If a manager wants a new slice of data, they have to ask a developer. Power BI lets them explore themselves.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- VERDICT TABLE -->
+<div class="section" id="verdict">
+  <div class="sec-header reveal">
+    <span class="sec-num">// 02</span>
+    <span class="sec-title">Verdict by task — what to use for each</span>
+  </div>
+
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden" class="reveal">
+    <table class="verdict-table">
+      <thead>
+        <tr>
+          <th>Task in your lab</th>
+          <th>Use this</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Parameter tracking dashboard</td>
+          <td><span class="badge pbi">Power BI</span></td>
+          <td>Connect your database, conditional formatting for pass/fail, control charts — done in hours. No coding needed.</td>
+        </tr>
+        <tr>
+          <td>Management reporting</td>
+          <td><span class="badge pbi">Power BI</span></td>
+          <td>Drag-and-drop KPI reports, scheduled delivery to leadership, interactive drill-down. Power BI was built for exactly this.</td>
+        </tr>
+        <tr>
+          <td>Basic trend forecasting</td>
+          <td><span class="badge pbi">Power BI</span></td>
+          <td>Built-in forecast lines on time series are sufficient for simple parameter trend projection and revenue trajectory.</td>
+        </tr>
+        <tr>
+          <td>Lab data entry / logging</td>
+          <td><span class="badge web">Web</span></td>
+          <td>Power BI is read-only. You need a web form where techs can log test results, upload files, mark pass/fail.</td>
+        </tr>
+        <tr>
+          <td>Advanced forecasting (ARIMA, Prophet)</td>
+          <td><span class="badge web">Web</span></td>
+          <td>Run a Python backend with the model of your choice. Web UI displays predictions. Power BI's built-in forecast is too basic for complex parameter prediction.</td>
+        </tr>
+        <tr>
+          <td>Predictive model (ML)</td>
+          <td><span class="badge web">Web</span></td>
+          <td>Power BI cannot train or serve ML models. You need Python + FastAPI + web frontend. Power BI can show model outputs only after the fact.</td>
+        </tr>
+        <tr>
+          <td>Revenue / avenue what-if modelling</td>
+          <td><span class="badge web">Web</span></td>
+          <td>Interactive sliders that rerun a model and update revenue forecasts live. Power BI cannot do interactive simulation — it only shows static calculated columns.</td>
+        </tr>
+        <tr>
+          <td>Quant analysis reports</td>
+          <td><span class="badge both">Both</span></td>
+          <td>Power BI for summary statistics and historical quant reports (fast). Web for model-driven quant predictions and simulation (powerful).</td>
+        </tr>
+        <tr>
+          <td>Client-facing lab reports</td>
+          <td><span class="badge both">Both</span></td>
+          <td>Power BI for internal. Web for external clients — branded, no license needed, fully custom layout.</td>
+        </tr>
+        <tr>
+          <td>Real-time parameter monitoring</td>
+          <td><span class="badge web">Web</span></td>
+          <td>WebSocket streaming for live data during a test run. Power BI refreshes every 15+ minutes — not real-time.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- RECOMMENDATION -->
+<div class="section" id="rec">
+  <div class="sec-header reveal">
+    <span class="sec-num">// 03</span>
+    <span class="sec-title">Recommended architecture for your lab</span>
+    <span class="sec-sub">Use both — each in its lane</span>
+  </div>
+
+  <div class="rec-box reveal">
+    <div class="rec-col">
+      <div class="rec-col-title" style="color:var(--amber)">Start with Power BI</div>
+      <div class="rec-item">Build parameter tracking dashboards from your existing data immediately</div>
+      <div class="rec-item">Set up management reports with scheduled delivery — show value fast</div>
+      <div class="rec-item">Use DAX for quant stats: Cpk, mean, std dev, moving averages</div>
+      <div class="rec-item">Enable built-in forecast lines for basic parameter trends</div>
+      <div class="rec-item">Set threshold alerts for out-of-spec parameters</div>
+      <div class="rec-item" style="color:var(--amber);font-size:11px;font-family:var(--mono)">→ Timeline: week 1–2</div>
+    </div>
+
+    <div class="rec-col">
+      <div class="rec-col-title" style="color:var(--blue)">Then build the Web system</div>
+      <div class="rec-item">Build a web data entry form — techs log results directly into the database</div>
+      <div class="rec-item">Add real-time parameter monitoring with live charts during test runs</div>
+      <div class="rec-item">Build the revenue / avenue what-if simulator with interactive sliders</div>
+      <div class="rec-item">Create client-facing branded lab reports if needed externally</div>
+      <div class="rec-item">Custom alert and workflow logic per parameter spec</div>
+      <div class="rec-item" style="color:var(--blue);font-size:11px;font-family:var(--mono)">→ Timeline: month 1–2</div>
+    </div>
+
+    <div class="rec-col">
+      <div class="rec-col-title" style="color:var(--green)">Then build the ML Model</div>
+      <div class="rec-item">Python backend: train model on collected lab + revenue data</div>
+      <div class="rec-item">FastAPI endpoint serves predictions to the web UI in real time</div>
+      <div class="rec-item">Retrain pipeline: new data → model updates → better predictions</div>
+      <div class="rec-item">SHAP explainability layer — scientists see why each prediction was made</div>
+      <div class="rec-item">Power BI connects to prediction DB — management sees model output in their existing dashboard</div>
+      <div class="rec-item" style="color:var(--green);font-size:11px;font-family:var(--mono)">→ Timeline: month 2–4</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-id">LAB_SYS // TOOL_DECISION // END_OF_REPORT</div>
+  <div class="footer-bar"></div>
+  <div class="footer-id" style="color:var(--green)">STATUS: COMPLETE <span class="blink">■</span></div>
+</footer>
+
 <script>
-/* clock */
-setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-US',{hour12:false});},1000);
-
-/* data */
-const FD={
-  daily:{lbl:['00','02','04','06','08','10','12','14','16','18','20','22'],rev:[18,22,19,34,45,38,52,48,61,55,49,43],exp:[5,6,5,9,12,10,14,13,16,15,13,12],label:'Today · Hourly'},
-  weekly:{lbl:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],rev:[320,410,380,490,520,310,190],exp:[95,120,110,145,155,90,55],label:'This Week · Daily'},
-  monthly:{lbl:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],rev:[380,420,510,490,620,590,710,480,540,600,650,720],exp:[120,140,160,150,190,170,200,130,160,180,195,220],label:'2026 · Monthly'},
-  yearly:{lbl:['2020','2021','2022','2023','2024','2025','2026'],rev:[1800,2100,2600,3100,3700,4200,4830],exp:[600,700,850,950,1100,1220,1270],label:'All Time · Yearly'}
-};
-let cur='daily';
-const CH={};
-
-function setTab(btn,id){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('sec-'+id).classList.add('active');
-  setTimeout(()=>Object.values(CH).forEach(c=>{try{c.resize();}catch(e){}}),30);
-}
-function setFilter(btn,key){
-  document.querySelectorAll('.df-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');cur=key;refreshAll();
-}
-function applyRange(){
-  const a=document.getElementById('d1').value,b=document.getElementById('d2').value;
-  if(!a||!b)return;
-  document.querySelectorAll('.df-btn').forEach(b=>b.classList.remove('active'));
-  cur='monthly';refreshAll(a+' → '+b);
-}
-function refreshAll(lbl){
-  const d=FD[cur],l=lbl||d.label;
-  document.querySelectorAll('[id$="-period"]').forEach(el=>el.textContent=l);
-  ['ovMainChart','finBarChart'].forEach(id=>{
-    const c=CH[id];if(!c)return;
-    c.data.labels=d.lbl;c.data.datasets[0].data=d.rev;c.data.datasets[1].data=d.exp;c.update();
-  });
-  ['finProfitChart','ovArea1'].forEach(id=>{
-    const c=CH[id];if(!c)return;
-    c.data.labels=d.lbl;c.data.datasets[0].data=d.rev.map((r,i)=>r-d.exp[i]);c.update();
-  });
-  const cc=CH['finCashChart'];if(cc){
-    cc.data.labels=d.lbl;
-    cc.data.datasets[0].data=d.rev.map((r,i,a)=>a.slice(0,i+1).reduce((s,v,j)=>s+v-d.exp[j],0));
-    cc.update();
-  }
-}
-
-/* Chart defaults — light theme colors */
-Chart.defaults.color='#A0A8C0';
-Chart.defaults.font.family="'Outfit',sans-serif";
-Chart.defaults.font.size=9;
-const GR='rgba(74,127,247,0.07)';
-const TT={backgroundColor:'#fff',borderColor:'rgba(74,127,247,0.15)',borderWidth:1,padding:9,titleColor:'#1A1D2E',bodyColor:'#6B7280',titleFont:{size:10,family:"'Outfit',sans-serif",weight:'600'},bodyFont:{size:9,family:"'JetBrains Mono',monospace"}};
-const AX={x:{grid:{display:false},border:{display:false}},y:{grid:{color:GR},border:{display:false}}};
-
-/* blue + orange — matching reference palette */
-const BLUE='rgba(74,127,247,0.8)';
-const BLUE_LT='rgba(74,127,247,0.12)';
-const ORANGE='rgba(247,131,74,0.75)';
-const ORANGE_LT='rgba(247,131,74,0.12)';
-const PURPLE='rgba(124,111,247,0.8)';
-
-function mkBar(id){
-  const d=FD[cur];
-  return CH[id]=new Chart(document.getElementById(id),{
-    type:'bar',
-    data:{labels:d.lbl,datasets:[
-      {label:'Revenue',data:d.rev,backgroundColor:BLUE,borderRadius:5,borderSkipped:false},
-      {label:'Expenses',data:d.exp,backgroundColor:ORANGE,borderRadius:5,borderSkipped:false}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>' $'+c.parsed.y+'K'}}},
-      scales:{x:{...AX.x},y:{...AX.y,ticks:{callback:v=>'$'+v+'K'}}}}
-  });
-}
-function mkLine(id,color,fill){
-  const d=FD[cur];
-  return CH[id]=new Chart(document.getElementById(id),{
-    type:'line',
-    data:{labels:d.lbl,datasets:[{data:d.rev.map((r,i)=>r-d.exp[i]),borderColor:color||'#4A7CF7',borderWidth:2,backgroundColor:fill||BLUE_LT,fill:true,tension:.4,pointRadius:0,pointHoverRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>' $'+c.parsed.y+'K'}}},
-      scales:{x:{...AX.x},y:{...AX.y,ticks:{callback:v=>'$'+v+'K'}}}}
-  });
-}
-function mkCash(id){
-  const d=FD[cur];
-  const cf=d.rev.map((r,i,a)=>a.slice(0,i+1).reduce((s,v,j)=>s+v-d.exp[j],0));
-  return CH[id]=new Chart(document.getElementById(id),{
-    type:'line',
-    data:{labels:d.lbl,datasets:[{data:cf,borderColor:'#7C6FF7',borderWidth:2,backgroundColor:'rgba(124,111,247,0.1)',fill:true,tension:.4,pointRadius:0,pointHoverRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>' $'+c.parsed.y+'K'}}},
-      scales:{x:{...AX.x},y:{...AX.y,ticks:{callback:v=>'$'+v+'K'}}}}
-  });
-}
-function mkDonut(id,vals,colors){
-  return CH[id]=new Chart(document.getElementById(id),{
-    type:'doughnut',
-    data:{datasets:[{data:vals,backgroundColor:colors,borderWidth:0,hoverOffset:5}]},
-    options:{responsive:false,cutout:'66%',plugins:{legend:{display:false},tooltip:{...TT}}}
-  });
-}
-function mkSmallBar(id){
-  return CH[id]=new Chart(document.getElementById(id),{
-    type:'bar',
-    data:{labels:['M','T','W','T','F','S','S'],datasets:[
-      {data:[34,58,47,72,61,29,18],backgroundColor:['#C8D9FD','#C8D9FD','#C8D9FD','#4A7CF7','#C8D9FD','#FDDECE','#FDDECE'],borderRadius:4,borderSkipped:false}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{...TT}},
-      scales:{x:{...AX.x},y:{...AX.y}}}
+// ── tabs ──
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+  // re-trigger reveals inside newly shown tab
+  document.querySelectorAll('#tab-' + id + ' .reveal').forEach(el => {
+    el.classList.remove('on');
+    setTimeout(() => el.classList.add('on'), 60);
   });
 }
 
-/* init */
-mkBar('ovMainChart');
-mkLine('ovArea1','#F7834A',ORANGE_LT);
-mkSmallBar('ovBarsChart');
-mkDonut('ovDonut',[42,28,18,12],['#4A7CF7','#F7834A','#7C6FF7','#AAB8D0']);
+// ── scroll reveal ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-mkBar('finBarChart');
-mkLine('finProfitChart','#4A7CF7',BLUE_LT);
-mkCash('finCashChart');
-mkDonut('finBudgDonut',[42,28,18,12],['#4A7CF7','#F7834A','#7C6FF7','#AAB8D0']);
-mkDonut('finTrialDonut',[58,18,24],['#4A7CF7','#F7834A','#C8D9FD']);
-
-mkSmallBar('labTestsChart');
-mkDonut('labTrialDonut',[58,18,24],['#4A7CF7','#F7834A','#C8D9FD']);
+// ── score bar animation on visible ──
+const scoreObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.score-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        requestAnimationFrame(() => {
+          setTimeout(() => { bar.style.width = w; }, 80);
+        });
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.score-row').forEach(el => scoreObs.observe(el));
 </script>
 </body>
 </html>
